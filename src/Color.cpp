@@ -13,22 +13,43 @@ Color::Color(scalar r,scalar g,scalar b){
     this->g=g;
     this->b=b;
 }
+
 Color::Color(){
     this->r=0;
     this->g=0;
     this->b=0;
 }
 
-Color& Color::operator+(Color& rhs){
+void Color::setR(scalar r){
+    this->r=r;
+}
+void Color::setG(scalar g){
+    this->g=g;
+}
+void Color::setB(scalar b){
+    this->b=b;
+}
+
+scalar Color::getR() const{
+    return this->r;
+}
+scalar Color::getG() const{
+    return this->g;
+}
+scalar Color::getB() const{
+    return this->b;
+}
+
+Color& Color::operator+(Color& rhs) const{
     return *(new Color(max(min(this->r+rhs.r,1.0),0.0),max(min(this->g+rhs.g,1.0),0.0),max(min(this->b+rhs.b,1.0),0.0)));
 }
-Color& Color::operator-(Color& rhs){
+Color& Color::operator-(Color& rhs) const{
     return *(new Color(max(min(this->r-rhs.r,1.0),0.0),max(min(this->g-rhs.g,1.0),0.0),max(min(this->b-rhs.b,1.0),0.0)));
 }
-Color& Color::operator*(scalar rhs){
+Color& Color::operator*(scalar rhs) const{
     return *(new Color(max(min(this->r*rhs,1.0),0.0),max(min(this->g*rhs,1.0),0.0),max(min(this->b*rhs,1.0),0.0)));
 }
-Color& Color::operator/(scalar rhs){
+Color& Color::operator/(scalar rhs) const{
     return *(this)*(1.0/rhs);
 }
 

@@ -1,3 +1,6 @@
+#ifndef VECT_H
+#define VECT_H
+
 #include <iostream>
 
 using namespace std;
@@ -81,3 +84,5 @@ class Ray {
         Normal dir;
         scalar t_min, t_max;
 };
+
+#endif

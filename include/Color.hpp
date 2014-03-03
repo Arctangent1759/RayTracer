@@ -1,3 +1,6 @@
+#ifndef COLOR_H
+#define COLOR_H
+
 #include "Vect.hpp"
 
 class Color{
@@ -6,10 +9,18 @@ class Color{
         Color(scalar r,scalar g,scalar b);
         Color();
 
-        Color& operator+(Color& rhs);
-        Color& operator-(Color& rhs);
-        Color& operator*(scalar rhs);
-        Color& operator/(scalar rhs);
+        void setR(scalar r);
+        void setG(scalar g);
+        void setB(scalar b);
+
+        scalar getR() const;
+        scalar getG() const;
+        scalar getB() const;
+
+        Color& operator+(Color& rhs) const;
+        Color& operator-(Color& rhs) const;
+        Color& operator*(scalar rhs) const;
+        Color& operator/(scalar rhs) const;
 
         Color& operator+=(Color& rhs);
         Color& operator-=(Color& rhs);
@@ -33,3 +44,5 @@ class BRDF{
 };
 
 ostream& operator<<(ostream& lhs, BRDF& b);
+
+#endif
