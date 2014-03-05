@@ -101,6 +101,14 @@ Vect& normalize(Vect& v){
     return v.normalize();
 }
 
+Vect& project(const Vect& u, const Vect& v){
+    return (((u)*(v))/normSq(v))*v;
+}
+
+Vect& perp(const Vect& u, const Vect& v){
+    return u-project(u,v);
+}
+
 /////////////////////////////
 //  Normal Implementations //
 /////////////////////////////
@@ -157,6 +165,19 @@ ostream& operator<<(ostream& lhs, Point& v){
 Ray::Ray(Point& p, Vect& v){
     this->pos=p;
     this->dir=normalized(v);
+}
+
+void Ray::setPos(Point& v){
+    this->pos=v;
+}
+void Ray::setDir(Vect& v){
+    this->dir=v;
+}
+Vect Ray::getPos() const{
+    return this->pos;
+}
+Vect Ray::getDir() const{
+    return this->dir;
 }
 
 ostream& operator<<(ostream& lhs, Ray& r){

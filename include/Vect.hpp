@@ -50,6 +50,8 @@ scalar normSq(const Vect& v);
 scalar norm(const Vect& v);
 Vect& normalized(const Vect& v);
 Vect& normalize(Vect& v);
+Vect& project(const Vect& u, const Vect& v);
+Vect& perp(const Vect& u, const Vect& v);
 
 
 class Normal : public Vect{
@@ -78,6 +80,11 @@ class Ray {
     friend ostream& operator<<(ostream& lhs, Ray& r);
     public:
         Ray(Point& p, Vect& v);
+
+        void setPos(Point& v);
+        void setDir(Vect& v);
+        Vect getPos() const;
+        Vect getDir() const;
 
     protected:
         Point pos;

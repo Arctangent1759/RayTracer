@@ -8,8 +8,8 @@ SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 CFLAGS := -g # -Wall
-LIB := 
-INC := -I include
+LIB := -Llib/png++/ -lpng
+INC := -I include -Ilib/png++
 
 $(TARGET): $(OBJECTS)
 	@echo " Linking..."
@@ -17,7 +17,7 @@ $(TARGET): $(OBJECTS)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(BUILDDIR)
-	@echo " $(CC) $(CFLAGS) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) $(INC) -c -o $@ $<
+	@echo " $(CC) $(CFLAGS) $(LIB) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) $(LIB) $(INC) -c -o $@ $<
 
 clean:
 	@echo " Cleaning..."; 
