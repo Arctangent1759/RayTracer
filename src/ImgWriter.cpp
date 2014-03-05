@@ -12,7 +12,7 @@ ImgWriter::ImgWriter(int width, int height){
 
 void ImgWriter::setPixel(int x, int y, const Color c){
   //TODO: Implement setPixel here
-  picture[picture.get_height()-1-y][x] = rgb_pixel(c.getR(), c.getG(), c.getB());
+  picture[y][x] = rgb_pixel(255 * c.getR(), 255 * c.getG(), 255 * c.getB());
 }
 
 void ImgWriter::write(string filepath){
