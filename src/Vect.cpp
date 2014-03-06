@@ -162,12 +162,12 @@ ostream& operator<<(ostream& lhs, Point& v){
 //  Ray Implementations  //
 ///////////////////////////
 
-Ray::Ray(Point& p, Vect& v){
+Ray::Ray(Vect& p, Vect& v){
     this->pos=p;
     this->dir=normalized(v);
 }
 
-void Ray::setPos(Point& v){
+void Ray::setPos(Vect& v){
     this->pos=v;
 }
 void Ray::setDir(Vect& v){
@@ -181,5 +181,5 @@ Vect Ray::getDir() const{
 }
 
 ostream& operator<<(ostream& lhs, Ray& r){
-    return lhs << "Point(" << r.pos << ", " << r.dir << ")";
+    return lhs << "Ray(" << r.pos << ", " << r.dir << ")";
 }

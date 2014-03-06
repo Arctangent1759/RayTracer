@@ -3,7 +3,7 @@
 
 #include "Color.hpp"
 
-#include "png.hpp"
+#include "png++/png.hpp"
 
 class ImgWriter{
   public:

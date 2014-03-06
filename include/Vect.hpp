@@ -79,16 +79,16 @@ class Point : public Vect{
 class Ray {
     friend ostream& operator<<(ostream& lhs, Ray& r);
     public:
-        Ray(Point& p, Vect& v);
+        Ray(Vect& p, Vect& v);
 
-        void setPos(Point& v);
+        void setPos(Vect& v);
         void setDir(Vect& v);
         Vect getPos() const;
         Vect getDir() const;
 
     protected:
-        Point pos;
-        Normal dir;
+        Vect pos;
+        Vect dir;
         scalar t_min, t_max;
 };
 
