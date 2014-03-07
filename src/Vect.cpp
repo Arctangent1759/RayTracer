@@ -6,9 +6,9 @@
 ///////////////////////////
 
 Vect::Vect(){
-    this->x=x;
-    this->y=y;
-    this->z=z;
+    this->x=0;
+    this->y=0;
+    this->z=0;
 }
 
 Vect::Vect(Vect* v){
