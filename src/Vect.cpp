@@ -6,45 +6,43 @@
 ///////////////////////////
 
 Vect::Vect(){
-    this->x=x;
-    this->y=y;
-    this->z=z;
+    vector = Eigen::Vector3d(0.0, 0.0, 0.0);
 }
 
 Vect::Vect(Vect* v){
-    this->x=v->x;
-    this->y=v->y;
-    this->z=v->z;
+    vector = v->vector;
 }
 
 Vect::Vect(scalar x, scalar y, scalar z){
-    this->x=x;
-    this->y=y;
-    this->z=z;
+    vector = Eigen::Vector3d(x, y, z);
+}
+
+Vect::Vect(Eigen::Vector3d v) {
+    vector = v;
 }
 
 Vect& Vect::operator+(const Vect& rhs) const{
-    return *(new Vect(this->x+rhs.x,this->y+rhs.y,this->z+rhs.z));
+    return *(new Vect(this->vector + rhs.vector));
 }
 
 Vect& Vect::operator-(const Vect& rhs) const{
-    return *(new Vect(this->x-rhs.x,this->y-rhs.y,this->z-rhs.z));
+    return *(new Vect(this->vector - rhs.vector));
 }
 
 scalar Vect::operator*(const Vect& rhs) const{
-    return this->x*rhs.x+this->y*rhs.y+this->z*rhs.z;
+    return this->vector.dot(rhs.vector);
 }
 
 Vect& Vect::operator*(const scalar rhs) const{
-    return *(new Vect(rhs*this->x,rhs*this->y,rhs*this->z));
+    return *(new Vect(rhs * this->vector));
 }
 
 Vect& Vect::cross(const Vect& rhs) const{
-    return *(new Vect(this->y * rhs.z - this->z * rhs.y,this->z * rhs.x - this->x * rhs.z,this->x * rhs.y - this->y * rhs.x));
+    return *(new Vect(this->vector.cross(rhs.vector)));
 }
 
 Vect& Vect::operator/(const scalar rhs) const{
-    return *(this)*(1.0/rhs);
+    return *(new Vect(this->vector / rhs));
 }
 
 Vect& Vect::operator+=(Vect& rhs){
@@ -65,7 +63,7 @@ Vect& Vect::operator*=(scalar rhs){
 
 
 scalar Vect::normSq() const{
-    return this->x*this->x+this->y*this->y+this->z*this->z;
+    return (*this)*(*this);
 }
 
 scalar Vect::norm() const{
@@ -82,7 +80,7 @@ Vect& Vect::normalize(){
 }
 
 ostream& operator<<(ostream& lhs, Vect& v){
-    return lhs << "Vect(" << v.x << ", " << v.y << ", " << v.z << ")";
+    return lhs << "Vect(" << v.vector[0] << ", " << v.vector[1] << ", " << v.vector[2] << ")";
 }
 
 Vect& operator*(const scalar s, const Vect& v){return v*s;}
@@ -110,43 +108,6 @@ Vect& perp(const Vect& u, const Vect& v){
 }
 
 /////////////////////////////
-//  Normal Implementations //
-/////////////////////////////
-
-Normal::Normal() : Vect(){}
-
-Normal::Normal(scalar x, scalar y, scalar z) : Vect(x,y,z){
-    this->normalize();
-}
-
-Normal::Normal(Vect& v){
-    Vect tmp = v.normalized();
-    this->x=tmp.x;
-    this->y=tmp.y;
-    this->z=tmp.z;
-}
-
-Normal& Normal::operator+(Vect& rhs) const{
-    return *(new Normal(Vect(*this)+rhs));
-}
-
-Normal& Normal::operator-(Vect& rhs) const{
-    return *(new Normal(Vect(*this)-rhs));
-}
-
-ostream& operator<<(ostream& lhs, Normal& v){
-    return lhs << "Normal(" << v.x << ", " << v.y << ", " << v.z << ")";
-}
-
-Normal& Normal::operator+=(Vect& rhs){
-    *(this) = *(this) + rhs;
-}
-
-Normal& Normal::operator-=(Vect& rhs){
-    *(this) = *(this) - rhs;
-}
-
-/////////////////////////////
 //  Point Implementations  //
 /////////////////////////////
 
@@ -155,7 +116,7 @@ Point::Point() : Vect(){}
 Point::Point(scalar x, scalar y, scalar z) : Vect(x,y,z){}
 
 ostream& operator<<(ostream& lhs, Point& v){
-    return lhs << "Point(" << v.x << ", " << v.y << ", " << v.z << ")";
+    return lhs << "Point(" << v.vector[0] << ", " << v.vector[1] << ", " << v.vector[2] << ")";
 }
 
 ///////////////////////////
