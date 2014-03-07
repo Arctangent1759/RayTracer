@@ -9,7 +9,7 @@ SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 CFLAGS := -g # -Wall
 LIB := -Llib/png++/ -lpng
-INC := -I include -I include/Eigen -Ilib/png++
+INC := -I include -Ilib/png++
 
 $(TARGET): $(OBJECTS)
 	@echo " Linking..."
