@@ -2,6 +2,7 @@
 #define VECT_H
 
 #include <iostream>
+#include "Eigen/Dense"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ class Vect{
         Vect();
         Vect(Vect* v);
         Vect(scalar x, scalar y, scalar z);
+        Vect(Eigen::Vector3d);
 
         virtual Vect& operator+(const Vect& rhs) const;
         virtual Vect& operator-(const Vect& rhs) const;
@@ -39,7 +41,7 @@ class Vect{
         Vect& normalize();
 
     protected:
-        scalar x,y,z;
+        Eigen::Vector3d vector;
 };
 
 ostream& operator<<(ostream& lhs, Vect& v);
@@ -52,22 +54,6 @@ Vect& normalized(const Vect& v);
 Vect& normalize(Vect& v);
 Vect& project(const Vect& u, const Vect& v);
 Vect& perp(const Vect& u, const Vect& v);
-
-
-class Normal : public Vect{
-    friend ostream& operator<<(ostream& lhs, Normal& v);
-
-    public:
-        Normal();
-        Normal(scalar x, scalar y, scalar z);
-        Normal(Vect& v);
-        Normal& operator+(Vect& rhs) const;
-        Normal& operator-(Vect& rhs) const;
-        Normal& operator+=(Vect& rhs);
-        Normal& operator-=(Vect& rhs);
-};
-
-ostream& operator<<(ostream& lhs, Normal& v);
 
 class Point : public Vect{
     friend ostream& operator<<(ostream& lhs, Point& v);
