@@ -20,6 +20,7 @@ class Color{
         Color& operator+(Color& rhs) const;
         Color& operator-(Color& rhs) const;
         Color& operator*(scalar rhs) const;
+        Color& operator*(Color& rhs) const;
         Color& operator/(scalar rhs) const;
 
         Color& operator+=(Color& rhs);
