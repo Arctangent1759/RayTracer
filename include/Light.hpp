@@ -9,7 +9,7 @@ class Light{
         Light(Vect& pos, Color& cl);
         virtual Vect& getPos()=0;
         virtual Vect& getLightVector(Vect& position)=0;
-        Color getCl();
+        Color& getCl();
     protected:
         Vect pos;
         Color cl;

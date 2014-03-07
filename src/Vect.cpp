@@ -171,7 +171,7 @@ void Ray::setPos(Vect& v){
     this->pos=v;
 }
 void Ray::setDir(Vect& v){
-    this->dir=v;
+    this->dir=normalized(v);
 }
 Vect Ray::getPos() const{
     return this->pos;

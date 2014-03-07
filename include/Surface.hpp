@@ -10,8 +10,13 @@ class Scene;
 class Surface{
     public:
         Surface(Geometry* g, Material* m);
-        bool isIntersected(Ray r);
-        Color getColor(Ray& r, Scene* s);
+        scalar getDistAlongRay(Ray& r);
+        Vect& getNormal(Ray& r);
+        Vect& getIntersection(Ray& r);
+        Color& getCd();
+        Color& getCs();
+        Color& getCr();
+        scalar getP();
     protected:
         Geometry* geo;
         Material* mat;

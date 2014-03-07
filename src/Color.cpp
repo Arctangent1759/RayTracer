@@ -49,6 +49,9 @@ Color& Color::operator-(Color& rhs) const{
 Color& Color::operator*(scalar rhs) const{
     return *(new Color(max(min(this->r*rhs,1.0),0.0),max(min(this->g*rhs,1.0),0.0),max(min(this->b*rhs,1.0),0.0)));
 }
+Color& Color::operator*(Color& rhs) const{
+    return *(new Color(max(min(this->r*rhs.r,1.0),0.0),max(min(this->g*rhs.g,1.0),0.0),max(min(this->b*rhs.b,1.0),0.0)));
+}
 Color& Color::operator/(scalar rhs) const{
     return *(this)*(1.0/rhs);
 }

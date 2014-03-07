@@ -4,7 +4,7 @@ Light::Light(Vect& pos, Color& cl){
     this->pos = pos;
     this->cl = cl;
 }
-Color Light::getCl(){
+Color& Light::getCl(){
     return this->cl;
 }
 

@@ -5,12 +5,30 @@ Surface::Surface(Geometry* g, Material* m){
     this->mat=m;
 }
 
-bool Surface::isIntersected(Ray r){
-    return this->geo->isIntersected(r);
+scalar Surface::getDistAlongRay(Ray& r){
+    return this->geo->getDistAlongRay(r);
 }
 
+Vect& Surface::getNormal(Ray& r){
+    return this->geo->getNormal(r);
+}
 
-Color Surface::getColor(Ray& r, Scene* s){
-    //TODO: Implement BRDF here
+Vect& Surface::getIntersection(Ray& r){
+    return this->geo->getIntersection(r);
+}
+
+Color& Surface::getCd(){
     return this->mat->getCd();
+}
+
+Color& Surface::getCs(){
+    return this->mat->getCs();
+}
+
+Color& Surface::getCr(){
+    return this->mat->getCr();
+}
+
+scalar Surface::getP(){
+    return this->mat->getP();
 }
