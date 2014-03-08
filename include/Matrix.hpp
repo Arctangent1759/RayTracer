@@ -20,10 +20,12 @@ class Matrix {
     Matrix& operator+(const Matrix& rhs) const;
     Matrix& operator-(const Matrix& rhs) const;
     Matrix& operator*(const Matrix& rhs) const;
+    Matrix& operator*(const Vect& rhs) const;
+    Matrix& operator*(const scalar rhs) const;
     scalar operator()(int x, int y);
 
     Matrix& inverse(const Matrix& rhs) const;
 
   protected:
     vector< vector<scalar> > m;
-
+}
