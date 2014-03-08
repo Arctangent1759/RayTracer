@@ -21,6 +21,10 @@ class Vect{
         Vect(Vect* v);
         Vect(scalar x, scalar y, scalar z);
 
+        scalar getX();
+        scalar getY();
+        scalar getZ();
+
         virtual Vect& operator+(const Vect& rhs) const;
         virtual Vect& operator-(const Vect& rhs) const;
         scalar operator*(const Vect& rhs) const;

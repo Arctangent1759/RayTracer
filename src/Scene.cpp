@@ -47,13 +47,17 @@ Color Scene::trace(Ray ray, int depth){
         for (vector<Light*>::iterator light = lights.begin(); light != lights.end(); light++){
             Vect pos = surf->getIntersection(ray);
             Vect l = (*light)->getLightVector(pos);
-            if (!getEarliestIntersection(Ray(pos,l))){
+
+            Ray lightRay(pos,l);
+            Surface* shad = this->getEarliestIntersection(lightRay);
+            if (!(shad && shad->getDistAlongRay(lightRay) <= norm(l))){
                 Vect n = surf->getNormal(ray);
-                Vect r= 2*(l*n)*n-l;
                 Vect e = normalized(ray.getPos() - pos);
+                Vect r= 2*(l*n)*n-l;
+                Vect refl = 2*(e*n)*n-e;
                 Color diffuse = surf->getCd()*(*light)->getCl()*max(0.0,n*l);
                 Color specular = surf->getCs()*(*light)->getCl()*pow(max(0.0,e*r),surf->getP());
-                Color reflection = depth==0?Color(0,0,0):trace(Ray(pos,r),depth-1)*surf->getCr();
+                Color reflection = depth==0?Color(0,0,0):trace(Ray(pos,refl),depth-1)*surf->getCr();
                 out += diffuse + specular + reflection;
             }
         }

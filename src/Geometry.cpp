@@ -1,11 +1,22 @@
 #include "Geometry.hpp"
 #include "math.h"
 
+////////////////////////////////
+//  Geometry Implementations  //
+////////////////////////////////
+
+Vect& Geometry::getIntersection(Ray& r){
+    return r.getPos() + r.getDir()*this->getDistAlongRay(r);
+}
+
+//////////////////////////////////////
+//  SphereGeometry Implementations  //
+//////////////////////////////////////
+
 SphereGeometry::SphereGeometry(Vect center, scalar radius){
     this->center=center;
     this->radius=radius;
 }
-
 scalar SphereGeometry::getDistAlongRay(Ray& r){
     Vect displacement = r.getPos() - this->center;
     Vect dir = r.getDir();
@@ -25,11 +36,27 @@ scalar SphereGeometry::getDistAlongRay(Ray& r){
         }
     }
 }
-Vect& SphereGeometry::getIntersection(Ray& r){
-    return r.getPos() + r.getDir()*getDistAlongRay(r);
-}
-
 Vect& SphereGeometry::getNormal(Ray& r){
     Vect p = getIntersection(r);
     return normalized(p-this->center);
 }
+
+////////////////////////////////////////
+//  TriangleGeometry Implementations  //
+////////////////////////////////////////
+
+TriangleGeometry::TriangleGeometry(Vect a, Vect b, Vect c){
+    this->a=a;
+    this->b=b;
+    this->c=c;
+    //Preprocessing. Should make rendering faster.
+    this->n=normalized(cross(b-a,c-a));
+    this->offset=this->n*a;
+}
+scalar TriangleGeometry::getDistAlongRay(Ray& r){
+    return (r.getPos()*this->n+this->offset)/(r.getDir()*this->n);
+}
+Vect& TriangleGeometry::getNormal(Ray& r){
+    return ((this->n*r.getDir())<0?1.0:-1.0)*this->n;
+}
+

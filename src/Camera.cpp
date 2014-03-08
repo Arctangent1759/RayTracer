@@ -11,7 +11,7 @@ Camera::Camera(Vect eye, Vect ul, Vect ur, Vect lr, Vect ll, int imgWidth, int i
     this->v = (this->ll - this->ul)/this->imgHeight;
 }
 Ray& Camera::getRay(int i, int j){
-    return *(new Ray(this->eye,(this->ul+i*u+j*v) - this->eye));
+    return *(new Ray(this->eye,(this->ul+(i+0.5)*u+(j+0.5)*v) - this->eye));
 }
 int Camera::getImgWidth(){
     return this->imgWidth;

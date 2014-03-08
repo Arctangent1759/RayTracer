@@ -6,9 +6,9 @@
 ///////////////////////////
 
 Vect::Vect(){
-    this->x=x;
-    this->y=y;
-    this->z=z;
+    this->x=0;
+    this->y=0;
+    this->z=0;
 }
 
 Vect::Vect(Vect* v){
@@ -21,6 +21,16 @@ Vect::Vect(scalar x, scalar y, scalar z){
     this->x=x;
     this->y=y;
     this->z=z;
+}
+
+scalar Vect::getX(){
+    return this->x;
+}
+scalar Vect::getY(){
+    return this->y;
+}
+scalar Vect::getZ(){
+    return this->z;
 }
 
 Vect& Vect::operator+(const Vect& rhs) const{

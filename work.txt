@@ -1,0 +1,25 @@
+(1 | 0 | 0 | (y_2 z_1-y_3 z_1-y_1 z_2+y_3 z_2+y_1 z_3-y_2 z_3)/(x_3 y_2 z_1-x_2 y_3 z_1-x_3 y_1 z_2+x_1 y_3 z_2+x_2 y_1 z_3-x_1 y_2 z_3) | 0
+0 | 1 | 0 | (x_2 z_1-x_3 z_1-x_1 z_2+x_3 z_2+x_1 z_3-x_2 z_3)/(-x_3 y_2 z_1+x_2 y_3 z_1+x_3 y_1 z_2-x_1 y_3 z_2-x_2 y_1 z_3+x_1 y_2 z_3) | 0
+0 | 0 | 1 | (-x_2 y_1+x_3 y_1+x_1 y_2-x_3 y_2-x_1 y_3+x_2 y_3)/(-x_3 y_2 z_1+x_2 y_3 z_1+x_3 y_1 z_2-x_1 y_3 z_2-x_2 y_1 z_3+x_1 y_2 z_3) | 0)
+
+A+(y_2 z_1-y_3 z_1-y_1 z_2+y_3 z_2+y_1 z_3-y_2 z_3)/(x_3 y_2 z_1-x_2 y_3 z_1-x_3 y_1 z_2+x_1 y_3 z_2+x_2 y_1 z_3-x_1 y_2 z_3)D=0
+B+(x_2 z_1-x_3 z_1-x_1 z_2+x_3 z_2+x_1 z_3-x_2 z_3)/(-x_3 y_2 z_1+x_2 y_3 z_1+x_3 y_1 z_2-x_1 y_3 z_2-x_2 y_1 z_3+x_1 y_2 z_3)D=0
+C+(-x_2 y_1+x_3 y_1+x_1 y_2-x_3 y_2-x_1 y_3+x_2 y_3)/(-x_3 y_2 z_1+x_2 y_3 z_1+x_3 y_1 z_2-x_1 y_3 z_2-x_2 y_1 z_3+x_1 y_2 z_3)D=0
+
+
+-A/(y_2 z_1-y_3 z_1-y_1 z_2+y_3 z_2+y_1 z_3-y_2 z_3)/(x_3 y_2 z_1-x_2 y_3 z_1-x_3 y_1 z_2+x_1 y_3 z_2+x_2 y_1 z_3-x_1 y_2 z_3)=D
+-B/(x_2 z_1-x_3 z_1-x_1 z_2+x_3 z_2+x_1 z_3-x_2 z_3)/(-x_3 y_2 z_1+x_2 y_3 z_1+x_3 y_1 z_2-x_1 y_3 z_2-x_2 y_1 z_3+x_1 y_2 z_3)=D
+-C/(-x_2 y_1+x_3 y_1+x_1 y_2-x_3 y_2-x_1 y_3+x_2 y_3)/(-x_3 y_2 z_1+x_2 y_3 z_1+x_3 y_1 z_2-x_1 y_3 z_2-x_2 y_1 z_3+x_1 y_2 z_3)=D
+
+scalar x1 = a.getX();
+scalar y1 = a.getY();
+scalar z1 = a.getZ();
+scalar x2 = b.getX();
+scalar y2 = b.getY();
+scalar z2 = b.getZ();
+scalar x3 = c.getX();
+scalar y3 = c.getY();
+scalar z3 = c.getZ();
+this->n.getX()/(y2*z1-y3*z1-y1*z2+y3*z2+y1*z3-y2*z3)/(x3*y2*z1-x2*y3*z1-x3*y1*z2+x1*y3*z2+x2*y1*z3-x1*y2*z3)
+this->n.getY()/(x2*z1-x3*z1-x1*z2+x3*z2+x1*z3-x2*z3)/(-x3*y2*z1+x2*y3*z1+x3*y1*z2-x1*y3*z2-x2*y1*z3+x1*y2*z3)
+this->n.getZ()/(-x2*y1+x3*y1+x1*y2-x3*y2-x1*y3+x2*y3)/(-x3*y2*z1+x2*y3*z1+x3*y1*z2-x1*y3*z2-x2*y1*z3+x1*y2*z3)
