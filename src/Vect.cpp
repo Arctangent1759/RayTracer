@@ -23,13 +23,13 @@ Vect::Vect(scalar x, scalar y, scalar z){
     this->z=z;
 }
 
-scalar Vect::getX(){
+scalar Vect::getX() const{
     return this->x;
 }
-scalar Vect::getY(){
+scalar Vect::getY() const{
     return this->y;
 }
-scalar Vect::getZ(){
+scalar Vect::getZ() const{
     return this->z;
 }
 
