@@ -54,7 +54,14 @@ TriangleGeometry::TriangleGeometry(Vect a, Vect b, Vect c){
     this->offset=this->n*a;
 }
 scalar TriangleGeometry::getDistAlongRay(Ray& r){
-    return (r.getPos()*this->n+this->offset)/(r.getDir()*this->n);
+    scalar t = (r.getPos()*this->n+this->offset)/(r.getDir()*this->n);
+    Vect p = r.getPos()+t*r.getDir();
+    if (cross(b-a,p-a)*cross(b-a,c-a)<0 
+            || cross(c-b,p-b)*cross(c-b,a-b)<0 
+            || cross(a-c,p-c)*cross(a-c,b-c)<0){
+        return -1;
+    }
+    return t;
 }
 Vect& TriangleGeometry::getNormal(Ray& r){
     return ((this->n*r.getDir())<0?1.0:-1.0)*this->n;

@@ -28,6 +28,16 @@ void Scene::render(string filepath){
         exit(-1);
     }
 
+    int size = this->cam->getImgHeight()*this->cam->getImgWidth();
+    int inc = size/100;
+
+    cout << "0";
+    for (int i = 0; i < 96; i++){
+        cout << "=";
+    }
+    cout << "100%" << endl;
+    
+
     for (int j = 0; j < this->cam->getImgHeight(); j++){
         for (int i = 0; i < this->cam->getImgWidth(); i++){
             //TODO: Anti aliasing code will go here if we get to it
@@ -35,6 +45,11 @@ void Scene::render(string filepath){
             //of loop, then average the colors.
             Ray r = this->cam->getRay(i,j);
             this->film->setPixel(i,j,trace(r,this->maxReflectionDepth));
+
+            //Progress Bar
+            if ((j*this->cam->getImgWidth()+i)%inc==0){
+                cout << "." << flush;
+            }
         }
     }
     this->film->write(filepath);
