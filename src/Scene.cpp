@@ -63,7 +63,7 @@ Color Scene::trace(Ray ray, int depth){
         Vect n = surf->getNormal(ray);
         Vect refl = 2*(e*n)*n-e;
         Color reflection = depth==0?Color(0,0,0):trace(Ray(pos,refl),depth-1)*surf->getCr();
-        Color out = this->ambientColor + reflection;
+        Color out = this->ambientColor + surf->getCa() + reflection;
         for (vector<Light*>::iterator light = lights.begin(); light != lights.end(); light++){
             Vect l = (*light)->getLightVector(pos);
             Ray lightRay(pos,l);

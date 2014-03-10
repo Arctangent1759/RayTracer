@@ -17,6 +17,10 @@ Vect Surface::getIntersection(Ray r){
     return this->geo->getIntersection(r);
 }
 
+Color Surface::getCa(){
+    return this->mat->getCa();
+}
+
 Color Surface::getCd(){
     return this->mat->getCd();
 }

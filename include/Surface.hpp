@@ -13,6 +13,7 @@ class Surface{
         scalar getDistAlongRay(Ray r);
         Vect getNormal(Ray r);
         Vect getIntersection(Ray r);
+        Color getCa();
         Color getCd();
         Color getCs();
         Color getCr();
