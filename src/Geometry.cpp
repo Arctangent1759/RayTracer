@@ -95,11 +95,10 @@ PolygonGeometry::PolygonGeometry(Vect a, Vect b, Vect c){
 }
 void PolygonGeometry::preprocess(){
     //Preprocessing. Should make rendering faster.
-    this->n=normalized(cross(this->points[1]-this->points[0],this->points[2]-this->points[0]));
-    this->offset=this->n*this->points[0];
+    this->n=-1*normalized(cross(this->points[1]-this->points[0],this->points[2]-this->points[0]));
 }
 scalar PolygonGeometry::getDistAlongRay(Ray r){
-    scalar t = (r.getPos()*this->n+this->offset)/(r.getDir()*this->n);
+    scalar t = ((this->points[0]-r.getPos())*this->n)/(r.getDir()*this->n);
     Vect p = r.getPos()+t*r.getDir();
 
     if (t < 0){
@@ -129,12 +128,92 @@ Vect PolygonGeometry::getNormal(Ray r){
 #include <string>
 
 ObjGeometry::ObjGeometry(string filepath){
-    ifstream file("foobar.txt");
+    ifstream file(filepath.c_str());
     string line;
+
+    vector<Vect> vertices;
+    vector< vector<int> > faces;
     while (getline(file,line)){
+        if (line == "" || line.at(0)=='#'){
+            continue;
+        }
+
         istringstream lstr(line);
         string token;
+
+        lstr >> token;
+
+        if (token=="v"){
+            scalar x,y,z;
+            lstr >> x >> y >> z;
+            vertices.push_back(Vect(x,y,z));
+        }else if(token=="f"){
+            int vertNum;
+            vector<int> currFace;
+            while (lstr >> vertNum){
+                currFace.push_back(vertNum-1);
+            }
+            faces.push_back(currFace);
+        }else{
+        }
+    }
+    for (vector<vector<int> >::iterator i = faces.begin(); i != faces.end(); i++){
+        vector<Vect> points;
+        for (int j = 0; j < (*i).size(); j++){
+            points.push_back(vertices[(*i)[j]]);
+        }
+        this->polygons.push_back(PolygonGeometry(points));
     }
 }
-scalar ObjGeometry::getDistAlongRay(Ray r){}
-Vect ObjGeometry::getNormal(Ray r){}
+scalar ObjGeometry::getDistAlongRay(Ray r){
+    scalar min=-1;
+    for (vector<PolygonGeometry>::iterator i = this->polygons.begin(); i != this->polygons.end(); i++){
+        scalar d = i->getDistAlongRay(r);
+        if (d == -1){
+            continue;
+        }
+        if (min == -1 || d < min){
+            min = d;
+        }
+    }
+    return min;
+}
+
+Vect ObjGeometry::getNormal(Ray r){
+    scalar min = -1;
+    Vect vectmin;
+    for (vector<PolygonGeometry>::iterator i = this->polygons.begin(); i != this->polygons.end(); i++){
+        scalar d = i->getDistAlongRay(r);
+        if (d == -1){
+            continue;
+        }
+        if (min == -1 || d < min){
+            min = d;
+            vectmin = i->getNormal(r);
+        }
+    }
+    return vectmin;
+}
+
+////////////////
+//  Ostreams  //
+////////////////
+
+ostream& operator<<(ostream& lhs, SphereGeometry& g){
+    lhs << "SphereGeometry(" << g.center << "," << g.radius << ")";
+}
+ostream& operator<<(ostream& lhs, PolygonGeometry& g){
+    lhs << "PolygonGeometry(" << "[ ";
+    for (int i = 0; i < g.points.size(); i++){
+        lhs << g.points[i] << " ";
+    }
+    lhs << "])";
+}
+ostream& operator<<(ostream& lhs, ObjGeometry& g){
+    lhs << "ObjGeometry(" << "[ ";
+    for (int i = 0; i < g.polygons.size(); i++){
+        lhs << g.polygons[i] << " ";
+    }
+    lhs << "])";
+
+}

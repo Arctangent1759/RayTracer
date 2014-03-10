@@ -1,0 +1,47 @@
+ObjGeometry([ 
+        PolygonGeometry( 
+            Vect(0, 0, 78),
+            Vect(45, -45, 0),
+            Vect(45, 45, 0),
+        ) 
+        PolygonGeometry(
+            Vect(0, 0, 78),
+            Vect(-45, -45, 0),
+            Vect(45, -45, 0),
+        ) 
+        PolygonGeometry(
+            Vect(0, 0, 78),
+            Vect(-45, 45, 0),
+            Vect(-45, -45, 0),
+        ) 
+        PolygonGeometry(
+            Vect(0, 0, 78),
+            Vect(45, 45, 0),
+            Vect(-45, 45, 0),
+        ) 
+        PolygonGeometry(
+            Vect(0, 0, -78),
+            Vect(-45, -45, 0),
+            Vect(-45, 45, 0),
+        ) 
+        PolygonGeometry(
+            Vect(0, 0, -78),
+            Vect(45, -45, 0),
+            Vect(-45, -45, 0),
+        ) 
+        PolygonGeometry(
+            Vect(0, 0, -78),
+            Vect(45, 45, 0),
+            Vect(45, -45, 0),
+        ) 
+        PolygonGeometry(
+            Vect(0, 0, -78),
+            Vect(0, 0, 78),
+            Vect(45, 45, 0),
+        ) 
+        PolygonGeometry(
+            Vect(0, 0, -78),
+            Vect(-45, 45, 0),
+            Vect(0, 0, 78),
+        ) 
+])

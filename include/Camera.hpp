@@ -6,6 +6,7 @@
 class Camera{
     public:
         Camera(Vect eye, Vect ul, Vect ur, Vect lr, Vect ll, int imgWidth, int imgHeight);
+        Camera(Vect eye, Vect lookat, Vect up, scalar fovy, int imgWidth, int imgHeight);
         Ray getRay(int i, int j);
         int getImgWidth();
         int getImgHeight();

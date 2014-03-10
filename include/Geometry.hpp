@@ -11,6 +11,7 @@ class Geometry{
 };
 
 class SphereGeometry : public Geometry{
+    friend ostream& operator<<(ostream& lhs, SphereGeometry& v);
     public:
         SphereGeometry(Vect center, scalar radius);
         virtual scalar getDistAlongRay(Ray r);
@@ -21,6 +22,7 @@ class SphereGeometry : public Geometry{
 };
 
 class PolygonGeometry : public Geometry{
+    friend ostream& operator<<(ostream& lhs, PolygonGeometry& v);
     public:
         PolygonGeometry(vector<Vect> points);
         PolygonGeometry(Vect a, Vect b, Vect c);
@@ -30,10 +32,10 @@ class PolygonGeometry : public Geometry{
         void preprocess();
         vector<Vect> points;
         Vect n;
-        scalar offset;
 };
 
 class ObjGeometry : public Geometry{
+    friend ostream& operator<<(ostream& lhs, ObjGeometry& v);
     public:
         ObjGeometry(string filepath);
         virtual scalar getDistAlongRay(Ray r);
@@ -41,5 +43,9 @@ class ObjGeometry : public Geometry{
     protected:
         vector<PolygonGeometry> polygons;
 };
+
+ostream& operator<<(ostream& lhs, SphereGeometry& v);
+ostream& operator<<(ostream& lhs, PolygonGeometry& v);
+ostream& operator<<(ostream& lhs, ObjGeometry& v);
 
 #endif
