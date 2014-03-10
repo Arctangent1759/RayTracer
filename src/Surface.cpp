@@ -5,27 +5,27 @@ Surface::Surface(Geometry* g, Material* m){
     this->mat=m;
 }
 
-scalar Surface::getDistAlongRay(Ray& r){
+scalar Surface::getDistAlongRay(Ray r){
     return this->geo->getDistAlongRay(r);
 }
 
-Vect& Surface::getNormal(Ray& r){
+Vect Surface::getNormal(Ray r){
     return this->geo->getNormal(r);
 }
 
-Vect& Surface::getIntersection(Ray& r){
+Vect Surface::getIntersection(Ray r){
     return this->geo->getIntersection(r);
 }
 
-Color& Surface::getCd(){
+Color Surface::getCd(){
     return this->mat->getCd();
 }
 
-Color& Surface::getCs(){
+Color Surface::getCs(){
     return this->mat->getCs();
 }
 
-Color& Surface::getCr(){
+Color Surface::getCr(){
     return this->mat->getCr();
 }
 

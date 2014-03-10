@@ -25,22 +25,21 @@ class Vect{
         scalar getY() const;
         scalar getZ() const;
 
-        virtual Vect& operator+(const Vect& rhs) const;
-        virtual Vect& operator-(const Vect& rhs) const;
-        scalar operator*(const Vect& rhs) const;
-        Vect& operator*(const scalar rhs) const;
-        Vect& cross(const Vect& rhs) const;
-        Vect& operator/(const scalar rhs) const;
+        virtual Vect operator+(const Vect rhs) const;
+        virtual Vect operator-(const Vect rhs) const;
+        scalar operator*(const Vect rhs) const;
+        Vect operator*(const scalar rhs) const;
+        Vect cross(const Vect rhs) const;
+        Vect operator/(const scalar rhs) const;
 
-        virtual Vect& operator+=(Vect& rhs);
-        virtual Vect& operator-=(Vect& rhs);
-        Vect& operator/=(scalar rhs);
-        Vect& operator*=(scalar rhs);
+        virtual Vect operator+=(Vect rhs);
+        virtual Vect operator-=(Vect rhs);
+        Vect operator/=(scalar rhs);
+        Vect operator*=(scalar rhs);
 
         scalar normSq() const;
         scalar norm() const;
-        Vect& normalized() const;
-        Vect& normalize();
+        Vect normalized() const;
 
     protected:
         scalar x,y,z;
@@ -48,45 +47,21 @@ class Vect{
 
 ostream& operator<<(ostream& lhs, Vect& v);
 
-Vect& operator*(const scalar s, const Vect& v);
-Vect& cross(const Vect& u, const Vect& v);
-scalar normSq(const Vect& v);
-scalar norm(const Vect& v);
-Vect& normalized(const Vect& v);
-Vect& normalize(Vect& v);
-Vect& project(const Vect& u, const Vect& v);
-Vect& perp(const Vect& u, const Vect& v);
-
-
-class Normal : public Vect{
-    friend ostream& operator<<(ostream& lhs, Normal& v);
-
-    public:
-        Normal();
-        Normal(scalar x, scalar y, scalar z);
-        Normal(Vect& v);
-        Normal& operator+(Vect& rhs) const;
-        Normal& operator-(Vect& rhs) const;
-        Normal& operator+=(Vect& rhs);
-        Normal& operator-=(Vect& rhs);
-};
-
-ostream& operator<<(ostream& lhs, Normal& v);
-
-class Point : public Vect{
-    friend ostream& operator<<(ostream& lhs, Point& v);
-    public:
-        Point();
-        Point(scalar x, scalar y, scalar z);
-};
+Vect operator*(const scalar s, const Vect v);
+Vect cross(const Vect u, const Vect v);
+scalar normSq(const Vect v);
+scalar norm(const Vect v);
+Vect normalized(const Vect v);
+Vect project(const Vect u, const Vect v);
+Vect perp(const Vect u, const Vect v);
 
 class Ray {
     friend ostream& operator<<(ostream& lhs, Ray& r);
     public:
-        Ray(Vect& p, Vect& v);
+        Ray(Vect p, Vect v);
 
-        void setPos(Vect& v);
-        void setDir(Vect& v);
+        void setPos(Vect v);
+        void setDir(Vect v);
         Vect getPos() const;
         Vect getDir() const;
 

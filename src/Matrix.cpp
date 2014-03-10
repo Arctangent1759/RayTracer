@@ -1,5 +1,4 @@
 #include "Matrix.hpp"
-#include "math.h"
 #include "stdexcept"
 
 Matrix::Matrix() {
@@ -76,7 +75,7 @@ Matrix::Matrix(scalar a0, scalar a1, scalar b0, scalar b1) {
   this->m = v;
 }
 
-Matrix& Matrix::operator+(const Matrix& rhs) const {
+Matrix Matrix::operator+(const Matrix rhs) const {
   if (this->m.size() != (rhs.m).size()) {
     throw std::invalid_argument("Horizontal size of argument and matrix must be the same.");
   }
@@ -92,7 +91,7 @@ Matrix& Matrix::operator+(const Matrix& rhs) const {
   return *(new Matrix(added));
 }
 
-Matrix& Matrix::operator-(const Matrix& rhs) const {
+Matrix Matrix::operator-(const Matrix rhs) const {
   if (this->m.size() != (rhs.m).size()) {
     throw std::invalid_argument("Horizontal size of argument and matrix must be the same.");
   }
@@ -108,7 +107,7 @@ Matrix& Matrix::operator-(const Matrix& rhs) const {
   return *(new Matrix(subtracted));
 }
 
-Matrix& Matrix::operator*(const Matrix& rhs) const {
+Matrix Matrix::operator*(const Matrix rhs) const {
   scalar a0 = this->m[0][0];
   scalar a1 = this->m[0][1];
   scalar a2 = this->m[0][2];
@@ -167,7 +166,7 @@ Matrix& Matrix::operator*(const Matrix& rhs) const {
   return *(new Matrix(m));
 }
 
-Vect& Matrix::operator*(const Vect& rhs) const {
+Vect Matrix::operator*(const Vect rhs) const {
   scalar a0 = this->m[0][0];
   scalar a1 = this->m[0][1];
   scalar a2 = this->m[0][2];
@@ -197,7 +196,7 @@ Vect& Matrix::operator*(const Vect& rhs) const {
   return *(new Vect(row0/row3, row1/row3, row2/row3));
 }
 
-Matrix& Matrix::operator*(const scalar rhs) const {
+Matrix Matrix::operator*(const scalar rhs) const {
   vector< vector<scalar> > v (4, vector<scalar> (4, 0));
   for (int i = 0; i < this->m.size(); i++) {
     for (int j = 0; j < this->m[i].size(); j++) {
@@ -207,7 +206,7 @@ Matrix& Matrix::operator*(const scalar rhs) const {
   return *(new Matrix(v));
 }
 
-Matrix& Matrix::inverse() const {
+Matrix Matrix::inverse() const {
   scalar a0 = this->m[0][0];
   scalar a1 = this->m[1][0];
   scalar a2 = this->m[2][0];

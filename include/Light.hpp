@@ -6,10 +6,11 @@
 
 class Light{
     public:
-        Light(Vect& pos, Color& cl);
-        virtual Vect& getPos()=0;
-        virtual Vect& getLightVector(Vect& position)=0;
-        Color& getCl();
+        Light(Vect pos, Color cl);
+        virtual Vect getPos()=0;
+        virtual Vect getLightVector(Vect position)=0;
+        virtual scalar getDist(Vect pos)=0;
+        Color getCl();
     protected:
         Vect pos;
         Color cl;
@@ -17,16 +18,18 @@ class Light{
 
 class DirectionalLight : public Light{
     public:
-        DirectionalLight(Vect& dir, Color cl);
-        virtual Vect& getPos();
-        virtual Vect& getLightVector(Vect& position);
+        DirectionalLight(Vect dir, Color cl);
+        virtual Vect getPos();
+        virtual Vect getLightVector(Vect position);
+        virtual scalar getDist(Vect pos);
 };
 
 class PointLight : public Light{
     public:
-        PointLight(Vect& pos, Color cl);
-        virtual Vect& getPos();
-        virtual Vect& getLightVector(Vect& position);
+        PointLight(Vect pos, Color cl);
+        virtual Vect getPos();
+        virtual Vect getLightVector(Vect position);
+        virtual scalar getDist(Vect pos);
 };
 
 #endif

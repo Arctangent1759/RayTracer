@@ -6,7 +6,7 @@
 class Camera{
     public:
         Camera(Vect eye, Vect ul, Vect ur, Vect lr, Vect ll, int imgWidth, int imgHeight);
-        Ray& getRay(int i, int j);
+        Ray getRay(int i, int j);
         int getImgWidth();
         int getImgHeight();
     protected:

@@ -58,22 +58,21 @@ void Scene::render(string filepath){
 Color Scene::trace(Ray ray, int depth){
     Surface* surf = this->getEarliestIntersection(ray);
     if (surf){
-        Color out = this->ambientColor;
+        Vect pos = surf->getIntersection(ray);
+        Vect e = normalized(ray.getPos() - pos);
+        Vect n = surf->getNormal(ray);
+        Vect refl = 2*(e*n)*n-e;
+        Color reflection = depth==0?Color(0,0,0):trace(Ray(pos,refl),depth-1)*surf->getCr();
+        Color out = this->ambientColor + reflection;
         for (vector<Light*>::iterator light = lights.begin(); light != lights.end(); light++){
-            Vect pos = surf->getIntersection(ray);
             Vect l = (*light)->getLightVector(pos);
-
             Ray lightRay(pos,l);
             Surface* shad = this->getEarliestIntersection(lightRay);
-            if (!(shad && shad->getDistAlongRay(lightRay) <= norm(l))){
-                Vect n = surf->getNormal(ray);
-                Vect e = normalized(ray.getPos() - pos);
+            if (!(shad && shad->getDistAlongRay(lightRay) <= (*light)->getDist(pos))){
                 Vect r= 2*(l*n)*n-l;
-                Vect refl = 2*(e*n)*n-e;
                 Color diffuse = surf->getCd()*(*light)->getCl()*max(0.0,n*l);
                 Color specular = surf->getCs()*(*light)->getCl()*pow(max(0.0,e*r),surf->getP());
-                Color reflection = depth==0?Color(0,0,0):trace(Ray(pos,refl),depth-1)*surf->getCr();
-                out += diffuse + specular + reflection;
+                out += diffuse + specular;
             }
         }
         return out;

@@ -6,13 +6,13 @@ Material::Material(Color cd, Color cs, Color cr, scalar p){
     this->cr = cr;
     this->p=p;
 }
-Color& Material::getCd(){
+Color Material::getCd(){
     return this->cd;
 }
-Color& Material::getCs(){
+Color Material::getCs(){
     return this->cs;
 }
-Color& Material::getCr(){
+Color Material::getCr(){
     return this->cr;
 }
 scalar Material::getP(){

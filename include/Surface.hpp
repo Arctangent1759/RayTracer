@@ -10,12 +10,12 @@ class Scene;
 class Surface{
     public:
         Surface(Geometry* g, Material* m);
-        scalar getDistAlongRay(Ray& r);
-        Vect& getNormal(Ray& r);
-        Vect& getIntersection(Ray& r);
-        Color& getCd();
-        Color& getCs();
-        Color& getCr();
+        scalar getDistAlongRay(Ray r);
+        Vect getNormal(Ray r);
+        Vect getIntersection(Ray r);
+        Color getCd();
+        Color getCs();
+        Color getCr();
         scalar getP();
     protected:
         Geometry* geo;
