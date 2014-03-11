@@ -68,11 +68,11 @@ int main(){
        s.addSurface(new Surface(new ObjGeometry("obj/airboat.obj"), new Material(Color(.1,.1,.1),Color(1,0,0),Color(1,1,1),Color(.9,.9,.9),50)));
        */
 
-       s.addCamera(new Camera(Vect(8,8,5)*2,Vect(-1,-1,-1),Vect(-1,-1,1),2,500,500));
+       s.addCamera(new Camera(Vect(8,8,5)*2,Vect(-1,-1,-1),Vect(-1,-1,1),2,1000,1000));
        s.addLight(new PointLight(Vect(0,0,10), Color(1,1,1)));
        s.addSurface(new Surface(new ObjGeometry("obj/shuttle.obj"), new Material(Color(.1,.1,.1),Color(.7,.7,.7),Color(1,1,1),Color(.5,.5,.5),50)));
-
        s.addSurface(new Surface(new PolygonGeometry(Vect(-1000,-1000,-5),Vect(1000,-1000,-5),Vect(0,1000,-5)), new Material(Color(.1,.1,.1),Color(0,0,.7),Color(0,0,.5),Color(1,1,1),50)));
+       s.addSurface(new Surface(new PolygonGeometry(Vect(-1000,-1000,12),Vect(1000,-1000,12),Vect(0,1000,12)), new Material(Color(.1,.1,.1),Color(0,0,.7),Color(0,0,.5),Color(1,1,1),50)));
 
     s.render("out.png");
 }

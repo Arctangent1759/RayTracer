@@ -52,6 +52,7 @@ void Scene::render(string filepath){
             }
         }
     }
+    cout << "[done]" << endl;
     this->film->write(filepath);
 }
 
