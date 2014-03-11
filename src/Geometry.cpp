@@ -101,7 +101,7 @@ scalar PolygonGeometry::getDistAlongRay(Ray r){
     scalar t = ((this->points[0]-r.getPos())*this->n)/(r.getDir()*this->n);
     Vect p = r.getPos()+t*r.getDir();
 
-    if (t < 0){
+    if (t < 1e-5){
         return -1;
     }
     int len = this->points.size();

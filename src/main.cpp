@@ -74,5 +74,5 @@ int main(){
 
        s.addSurface(new Surface(new PolygonGeometry(Vect(-1000,-1000,-5),Vect(1000,-1000,-5),Vect(0,1000,-5)), new Material(Color(.1,.1,.1),Color(0,0,.7),Color(0,0,.5),Color(1,1,1),50)));
 
-    s.render("out2.png");
+    s.render("out.png");
 }
