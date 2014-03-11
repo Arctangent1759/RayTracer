@@ -40,6 +40,10 @@ scalar Color::getB() const{
     return this->b;
 }
 
+bool Color::operator==(Color rhs) const{
+    return this->r==rhs.r +  this->g==rhs.g +  this->b==rhs.b;
+}
+
 Color Color::operator+(Color rhs) const{
     return Color(max(min(this->r+rhs.r,1.0),0.0),max(min(this->g+rhs.g,1.0),0.0),max(min(this->b+rhs.b,1.0),0.0));
 }

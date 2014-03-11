@@ -26,7 +26,7 @@ class Scene{
         vector<Light*> lights;
         Color ambientColor;
         Color backgroundColor;
-        static const scalar SHADOW_BIAS = 0.0001;
+        static const scalar SHADOW_BIAS = 0.01;
         int maxReflectionDepth;
 };
 

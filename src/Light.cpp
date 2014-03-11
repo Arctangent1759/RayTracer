@@ -28,5 +28,5 @@ Vect PointLight::getLightVector(Vect position){
     return normalized(this->getPos()-position);
 }
 scalar PointLight::getDist(Vect pos){
-    return norm(this->getLightVector(pos));
+    return norm(this->getPos() - pos);
 }

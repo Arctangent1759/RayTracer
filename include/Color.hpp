@@ -17,6 +17,8 @@ class Color{
         scalar getG() const;
         scalar getB() const;
 
+        bool operator==(Color rhs) const;
+
         Color operator+(Color rhs) const;
         Color operator-(Color rhs) const;
         Color operator*(scalar rhs) const;
