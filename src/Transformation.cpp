@@ -52,7 +52,6 @@ ostream& operator<<(ostream& lhs, Transformation& t) {
 Rotation::Rotation() : Transformation() {}
 
 Rotation::Rotation(scalar angle, string axis) {
-  cout << "test" << endl;
   Vect v;
   if (axis == "x") {
     v = Vect(1, 0, 0);
@@ -72,13 +71,10 @@ Rotation::Rotation(scalar angle, string axis) {
   n[2][1] = a;
   n[1][2] = -a;
   Matrix n1(n);
-  cout << n1 << endl;
   Matrix n2(n1*n1);
-  cout << n2 << endl;
   this->m = n1*sin(angle)+n2*(1-cos(angle))+Matrix();
   scalar t1 = sin(angle);
   scalar t2 = (1-cos(angle));
-  cout << t1 << endl << t2 << endl;
   this->m.maintainHomogeneous();
 }
 

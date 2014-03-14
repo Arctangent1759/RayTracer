@@ -18,11 +18,11 @@ int main(){
     s.addCamera(new Camera(new Vect(0,0,0),new Vect(-1,1,-3),new Vect(1,1,-3),new Vect(1,-1,-3),new Vect(-1,-1,-3),1000,1000));
     s.addLight(new DirectionalLight( Vect(0.57735027,-0.57735027,-0.57735027), Color(1,1,1)));
     s.addLight(new DirectionalLight( Vect(-0.57735027,0.57735027,0.57735027), Color(1,1,1)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(0, 0, 0), 1.0), new Material(Color(0.1,0.1,0.1), Color(1,0,0), Color(1,1,1), Color(0.9,0.9,0.9), 50), (Translate(0, 0, -17)*(Rotation(45*pi/180, Vect(0, 0, 1))*Scale(4, 2, 2)))));
-    Rotation r(45*pi/180, Vect(0, 0, -1));
-    Matrix m = r.getTransformation();
-    cout << m << endl;
-    //s.addSurface(new Surface(new SphereGeometry(Vect(0, 0, 0), 1.0), new Material(Color(0.1,0.1,0.1), Color(0,1,0), Color(1,1,1), Color(0.9,0.9,0.9), 50), Scale(0.5, 1.5, 1.0)*Rotation(0, -0.785398163, -0.785398163)*Translate(0, 0, -17)));
+    s.addSurface(new Surface(new SphereGeometry(Vect(0, 0, 0), 1.0), new Material(Color(0.1,0.1,0.1), Color(1,0,0), Color(1,1,1), Color(0.9,0.9,0.9), 50), Translate(0, 0, -17)*Scale(4, 2, 2)));
+    s.addSurface(new Surface(new SphereGeometry(Vect(0, 0, 0), 1.0), new Material(Color(0.1,0.1,0.1), Color(0,1,0), Color(1,1,1), Color(0.9,0.9,0.9), 50), Translate(0, 0, -17)*Rotation(0, -45*pi/180, -45*pi/180)*Scale(0.5, 1.5, 1.0)));
+    s.addSurface(new Surface(new SphereGeometry(Vect(0, 0, 0), 1.0), new Material(Color(0.1,0.1,0.1), Color(0,0,1), Color(1,1,1), Color(0.9,0.9,0.9), 50), Translate(0, 0, -17)*Rotation(0, -45*pi/180, 45*pi/180)*Scale(0.5, 1.5, 1.0)));
+    s.addSurface(new Surface(new SphereGeometry(Vect(0, 0, 0), 1.0), new Material(Color(0.1,0.1,0.1), Color(1,1,0), Color(1,1,1), Color(0.9,0.9,0.9), 50), Translate(0, 0, -17)*Rotation(0, -45*pi/180, -135*pi/180)*Scale(0.5, 1.5, 1.0)));
+    s.addSurface(new Surface(new SphereGeometry(Vect(0, 0, 0), 1.0), new Material(Color(0.1,0.1,0.1), Color(0,1,1), Color(1,1,1), Color(0.9,0.9,0.9), 50), Translate(0, 0, -17)*Rotation(0, -45*pi/180, 135*pi/180)*Scale(0.5, 1.5, 1.0)));
 
     /*Scene s(Color(0.0,0.0,0.0),Color(0,0,0),5);
 
