@@ -11,6 +11,13 @@ using namespace std;
 
 int main(){
     Scene s(Color(0.0,0.0,0.0),Color(0,0,0),5);
+    s.addCamera(new Camera(new Vect(0,0,0),new Vect(-1,1,-3),new Vect(1,1,-3),new Vect(1,-1,-3),new Vect(-1,-1,-3),1000,1000));
+    s.addLight(new DirectionalLight( Vect(0.57735027,-0.57735027,-0.57735027), Color(1,1,1)));
+    s.addLight(new DirectionalLight( Vect(-0.57735027,0.57735027,0.57735027), Color(1,1,1)));
+    s.addSurface(new Surface(new SphereGeometry(Vect(0, 0, 0), 1.0), new Material(Color(0.1,0.1,0.1), Color(1,0,0), Color(1,1,1), Color(0.9,0.9,0.9), 50), Translate(-3, 0, -17)));
+    s.addSurface(new Surface(new SphereGeometry(Vect(0, 0, 0), 1.0), new Material(Color(0.1,0.1,0.1), Color(1,0,0), Color(1,1,1), Color(0.9,0.9,0.9), 50), Translate(0, 0, -17)));
+
+    /*Scene s(Color(0.0,0.0,0.0),Color(0,0,0),5);
 
     s = Scene(Color(0.0,0.0,0.0),Color(0,0,0),5);
     s.addCamera(new Camera(Vect(0,0,0),Vect(0,0,-3),Vect(0,1,0),2.0,1000,1000));
@@ -73,5 +80,6 @@ int main(){
     s.render("img/Shuttle.png");
 
     //s = Scene(Color(0.0,0.0,0.0),Color(0,0,0),5);
-    //s.addCamera(new Camera(Vect(0,0,0),Vect(0,-1,0),Vect(0,0,1),2,500,500));
+    //s.addCamera(new Camera(Vect(0,0,0),Vect(0,-1,0),Vect(0,0,1),2,500,500));*/
+    s.render("out.png");
 }

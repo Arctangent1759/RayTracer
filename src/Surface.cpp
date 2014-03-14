@@ -11,16 +11,24 @@ Surface::Surface(Geometry* g, Material* m){
     this->trans = Transformation();
 }
 
+Transformation Surface::getTransformation() {
+    return this->trans;
+}
+
 scalar Surface::getDistAlongRay(Ray r){
     return this->geo->getDistAlongRay(this->trans.apply(r));
 }
 
 Vect Surface::getNormal(Ray r){
-    return this->trans.inverse().transpose()*this->geo->getNormal(this->trans.apply(r));
+    return normalized(this->trans.inverse().transpose()*this->geo->getNormal(this->trans.apply(r)));
 }
 
 Vect Surface::getIntersection(Ray r){
     return this->geo->getIntersection(this->trans.apply(r));
+}
+
+Ray Surface::apply(Ray r) {
+    return this->trans.apply(r);
 }
 
 Color Surface::getCa(){

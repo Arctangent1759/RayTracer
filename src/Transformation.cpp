@@ -40,7 +40,7 @@ Transformation Transformation::transpose() const {
 
 Ray Transformation::apply(const Ray r) const {
   Transformation inv = this->inverse();
-  return Ray(inv*r.getPos(), inv*r.getDir());
+  return Ray(inv*r.getPos(), r.getDir());
 }
 
 ostream& operator<<(ostream& lhs, Transformation& t) {

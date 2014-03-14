@@ -57,10 +57,10 @@ Color Scene::trace(Ray ray, int depth){
     Surface* surf = this->getEarliestIntersection(ray);
     if (surf){
         Vect pos = surf->getIntersection(ray);
-        Vect e = normalized(ray.getPos() - pos);
+        Vect e = normalized(surf->apply(ray).getPos() - pos);
         Vect n = surf->getNormal(ray);
         Vect refl = 2*(e*n)*n-e;
-        Color reflection = depth==0?Color(0,0,0):trace(Ray(pos,refl),depth-1)*surf->getCr();
+        Color reflection = depth==0?Color(0,0,0):trace(Ray(surf->getTransformation()*pos,refl),depth-1)*surf->getCr();
         Color out = this->ambientColor + surf->getCa() + reflection;
         for (vector<Light*>::iterator light = lights.begin(); light != lights.end(); light++){
             Vect l = (*light)->getLightVector(pos);
