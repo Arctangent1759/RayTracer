@@ -10,7 +10,7 @@ Scene::Scene(Color ambientColor, Color backgroundColor, int maxReflectionDepth){
 }
 
 void Scene::addSurface(Surface* s){
-    this->objects.push_back(s);
+    this->surfaces.push_back(s);
 }
 
 void Scene::addLight(Light* l){
@@ -33,16 +33,13 @@ void Scene::render(string filepath){
 
     cout << "0";
     for (int i = 0; i < 96; i++){
-        cout << "=";
+        cout << "-";
     }
     cout << "100%" << endl;
     
 
     for (int j = 0; j < this->cam->getImgHeight(); j++){
         for (int i = 0; i < this->cam->getImgWidth(); i++){
-            //TODO: Anti aliasing code will go here if we get to it
-            //In this, we will simply throw more rays in some sort 
-            //of loop, then average the colors.
             Ray r = this->cam->getRay(i,j);
             this->film->setPixel(i,j,trace(r,this->maxReflectionDepth));
 
@@ -67,9 +64,9 @@ Color Scene::trace(Ray ray, int depth){
         Color out = this->ambientColor + surf->getCa() + reflection;
         for (vector<Light*>::iterator light = lights.begin(); light != lights.end(); light++){
             Vect l = (*light)->getLightVector(pos);
-            Ray lightRay(pos,l);
-            Surface* shad = this->getEarliestIntersection(lightRay);
-            if (!(shad && shad->getDistAlongRay(lightRay) <= (*light)->getDist(pos))){
+            Ray shadowRay(pos,normalized(l));
+            Surface* shad = this->getEarliestIntersection(shadowRay);
+            if (!(shad && shad->getDistAlongRay(shadowRay) <= (*light)->getDist(pos))){
                 Vect r= 2*(l*n)*n-l;
                 Color diffuse = surf->getCd()*(*light)->getCl()*max(0.0,n*l);
                 Color specular = surf->getCs()*(*light)->getCl()*pow(max(0.0,e*r),surf->getP());
@@ -85,7 +82,7 @@ Color Scene::trace(Ray ray, int depth){
 Surface* Scene::getEarliestIntersection(Ray r){
     scalar minVal = DBL_MAX;
     Surface* out = NULL;
-    for (vector<Surface*>::iterator i = objects.begin(); i != objects.end(); i++){
+    for (vector<Surface*>::iterator i = surfaces.begin(); i != surfaces.end(); i++){
         scalar dist = (*i)->getDistAlongRay(r);
         if (dist!=-1 && dist < minVal && dist > SHADOW_BIAS){
             minVal=dist;

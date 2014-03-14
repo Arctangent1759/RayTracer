@@ -22,7 +22,7 @@ class Scene{
         Surface* getEarliestIntersection(Ray r);
         Camera* cam;
         ImgWriter* film;
-        vector<Surface*> objects;
+        vector<Surface*> surfaces;
         vector<Light*> lights;
         Color ambientColor;
         Color backgroundColor;

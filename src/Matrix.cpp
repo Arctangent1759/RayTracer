@@ -3,6 +3,9 @@
 
 Matrix::Matrix() {
   vector< vector<scalar> > m(4, vector<scalar> (4, 0));
+  for (int i = 0; i < 4; i++) {
+    m[i][i] = 1;
+  }
   this->m = m;
 }
 
@@ -21,18 +24,18 @@ Matrix::Matrix(vector< vector<scalar> > m) {
   }
   this->m = m;
   if (this->m.size() < 4) {
-    this->m.resize(4, vector<scalar> (4, 1));
+    this->m.resize(4, vector<scalar> (4, 0));
   }
   for (int i = 0; i < this->m.size(); i++) {
     if (this->m[i].size() < 4) {
-      this->m[i].resize(4, 1);
+      this->m[i].resize(4, 0);
     }
   }
 }
 
 
 Matrix::Matrix(scalar a0, scalar a1, scalar a2, scalar a3, scalar b0, scalar b1, scalar b2, scalar b3, scalar c0, scalar c1, scalar c2, scalar c3, scalar d0, scalar d1, scalar d2, scalar d3) {
-  vector< vector<scalar> > v (4, vector<scalar> (4, 1));
+  vector< vector<scalar> > v (4, vector<scalar> (4, 0));
   v[0][0] = a0;
   v[0][1] = a1;
   v[0][2] = a2;
@@ -53,7 +56,7 @@ Matrix::Matrix(scalar a0, scalar a1, scalar a2, scalar a3, scalar b0, scalar b1,
 }
 
 Matrix::Matrix(scalar a0, scalar a1, scalar a2, scalar b0, scalar b1, scalar b2, scalar c0, scalar c1, scalar c2) {
-  vector< vector<scalar> > v (4, vector<scalar> (4, 1));
+  vector< vector<scalar> > v (4, vector<scalar> (4, 0));
   v[0][0] = a0;
   v[0][1] = a1;
   v[0][2] = a2;
@@ -67,7 +70,7 @@ Matrix::Matrix(scalar a0, scalar a1, scalar a2, scalar b0, scalar b1, scalar b2,
 }
 
 Matrix::Matrix(scalar a0, scalar a1, scalar b0, scalar b1) {
-  vector< vector<scalar> > v (4, vector<scalar> (4, 1));
+  vector< vector<scalar> > v (4, vector<scalar> (4, 0));
   v[0][0] = a0;
   v[0][1] = a1;
   v[1][0] = b0;
@@ -88,7 +91,7 @@ Matrix Matrix::operator+(const Matrix rhs) const {
       added[i][j] = this->m[i][j]+(rhs.m)[i][j];
     }
   }
-  return *(new Matrix(added));
+  return Matrix(added);
 }
 
 Matrix Matrix::operator-(const Matrix rhs) const {
@@ -104,7 +107,7 @@ Matrix Matrix::operator-(const Matrix rhs) const {
       subtracted[i][j] = this->m[i][j]-(rhs.m)[i][j];
     }
   }
-  return *(new Matrix(subtracted));
+  return Matrix(subtracted);
 }
 
 Matrix Matrix::operator*(const Matrix rhs) const {
@@ -163,7 +166,7 @@ Matrix Matrix::operator*(const Matrix rhs) const {
   m[2][3] = c1*f3+c2*g3+c3*h3+c0*x3;
   m[3][3] = d1*f3+d2*g3+d3*h3+d0*x3;
 
-  return *(new Matrix(m));
+  return Matrix(m);
 }
 
 Vect Matrix::operator*(const Vect rhs) const {
@@ -193,7 +196,7 @@ Vect Matrix::operator*(const Vect rhs) const {
   scalar row2 = c3+c0*x+c1*y+c2*z;
   scalar row3 = d3+d0*x+d1*y+d2*z;
 
-  return *(new Vect(row0/row3, row1/row3, row2/row3));
+  return Vect(row0/row3, row1/row3, row2/row3);
 }
 
 Matrix Matrix::operator*(const scalar rhs) const {
@@ -203,7 +206,7 @@ Matrix Matrix::operator*(const scalar rhs) const {
       v[i][j] = this->m[i][j]*rhs;
     }
   }
-  return *(new Matrix(v));
+  return Matrix(v);
 }
 
 Matrix Matrix::inverse() const {
@@ -242,13 +245,22 @@ Matrix Matrix::inverse() const {
   m[2][2] = -a3*b1*d0+a1*b3*d0+a3*b0*d1-a0*b3*d1-a1*b0*d3+a0*b1*d3;
   m[2][3] = a2*b1*d0-a1*b2*d0-a2*b0*d1+a0*b2*d1+a1*b0*d2-a0*b1*d2;
   m[3][0] = a3*b2*c1-a2*b3*c1-a3*b1*c2+a1*b3*c2+a2*b1*c3-a1*b2*c3;
-  m[3][1] = -a3*b2*c0+a2*b3*c0+a3*b0*c2-a0*b3*c2-a2*b0*c3+a0*b2*c3;
-  m[3][2] = a3*b1*c0-a1*b3*c0-a3*b0*c1+a0*c3*c1+a1*b0*c3-a0*b1*c3;
+  m[3][1] = -a3*b2*c0+a2*b3*c0+a3*b0*c2-a0*b3*c2-a2*b0*c3+a0*b2*c3; m[3][2] = a3*b1*c0-a1*b3*c0-a3*b0*c1+a0*c3*c1+a1*b0*c3-a0*b1*c3;
   m[3][3] = -a2*b1*c0+a1*b2*c0+a2*b0*c1-a0*b2*c1-a1*b0*c2+a0*b1*c2;
 
   Matrix h(m);
   h = h*indet;
-  return *(new Matrix(h));
+  return Matrix(h);
+}
+
+Matrix Matrix::transpose() const {
+  Matrix transposed;
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 4; j++) {
+      (transposed.m)[i][j] = this->m[j][i];
+    }
+  }
+  return transposed;
 }
 
 ostream& operator<<(ostream& lhs, Matrix& m) {

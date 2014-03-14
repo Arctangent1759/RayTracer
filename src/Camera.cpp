@@ -28,7 +28,7 @@ Camera::Camera(Vect eye, Vect lookat, Vect up, scalar fovy, int imgWidth, int im
 }
 
 Ray Camera::getRay(int i, int j){
-    return Ray(this->eye,(this->ul+(i+0.5)*u+(j+0.5)*v) - this->eye);
+    return Ray(this->eye,normalized((this->ul+(i+0.5)*u+(j+0.5)*v) - this->eye));
 }
 
 int Camera::getImgWidth(){

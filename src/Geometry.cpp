@@ -24,14 +24,15 @@ scalar SphereGeometry::getDistAlongRay(Ray r){
     Vect displacement = r.getPos() - this->center;
     Vect dir = r.getDir();
 
-    scalar b = 2*displacement*r.getDir();
+    scalar a = dir*dir;
+    scalar b = 2*displacement*dir;
     scalar c = displacement*displacement - this->radius*this->radius;
 
-    scalar discriminant = b*b-4*c;
+    scalar discriminant = b*b-4*a*c;
     if (discriminant < 0){
         return -1;
     }else{
-        scalar out = (-b - sqrt(discriminant))/2.0;
+        scalar out = (-b - sqrt(discriminant))/(2.0*a);
         if (out < 0){
             return -1;
         }else{

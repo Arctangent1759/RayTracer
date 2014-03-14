@@ -5,10 +5,12 @@
 #include "Color.hpp"
 #include "Geometry.hpp"
 #include "Material.hpp"
+#include "Transformation.hpp"
 
 class Scene;
 class Surface{
     public:
+        Surface(Geometry* g, Material* m, Transformation trans);
         Surface(Geometry* g, Material* m);
         scalar getDistAlongRay(Ray r);
         Vect getNormal(Ray r);
@@ -21,5 +23,6 @@ class Surface{
     protected:
         Geometry* geo;
         Material* mat;
+        Transformation trans;
 };
 #endif

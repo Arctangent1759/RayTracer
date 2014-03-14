@@ -117,14 +117,14 @@ Vect perp(const Vect u, const Vect v){
 
 Ray::Ray(Vect p, Vect v){
     this->pos=p;
-    this->dir=normalized(v);
+    this->dir=v;
 }
 
 void Ray::setPos(Vect v){
     this->pos=v;
 }
 void Ray::setDir(Vect v){
-    this->dir=normalized(v);
+    this->dir=v;
 }
 Vect Ray::getPos() const{
     return this->pos;

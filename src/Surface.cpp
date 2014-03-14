@@ -1,20 +1,26 @@
 #include "Surface.hpp"
 
+Surface::Surface(Geometry* g, Material* m, Transformation trans){
+    this->geo=g;
+    this->mat=m;
+    this->trans = trans;
+}
 Surface::Surface(Geometry* g, Material* m){
     this->geo=g;
     this->mat=m;
+    this->trans = Transformation();
 }
 
 scalar Surface::getDistAlongRay(Ray r){
-    return this->geo->getDistAlongRay(r);
+    return this->geo->getDistAlongRay(this->trans.apply(r));
 }
 
 Vect Surface::getNormal(Ray r){
-    return this->geo->getNormal(r);
+    return this->trans.inverse().transpose()*this->geo->getNormal(this->trans.apply(r));
 }
 
 Vect Surface::getIntersection(Ray r){
-    return this->geo->getIntersection(r);
+    return this->geo->getIntersection(this->trans.apply(r));
 }
 
 Color Surface::getCa(){
