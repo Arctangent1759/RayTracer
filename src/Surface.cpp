@@ -24,7 +24,7 @@ Vect Surface::getNormal(Ray r){
 }
 
 Vect Surface::getIntersection(Ray r){
-    return this->geo->getIntersection(this->trans.apply(r));
+    return this->trans.getTransformation()*(this->geo->getIntersection(this->trans.apply(r)));
 }
 
 Ray Surface::apply(Ray r) {
