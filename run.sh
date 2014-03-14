@@ -1,1 +1,1 @@
-make clean && make && bin/runner && ristretto out.png
+make clean && make && bin/runner && feh out.png

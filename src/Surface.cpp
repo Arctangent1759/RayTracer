@@ -20,7 +20,7 @@ scalar Surface::getDistAlongRay(Ray r){
 }
 
 Vect Surface::getNormal(Ray r){
-    return normalized(this->trans.inverse().transpose()*this->geo->getNormal(this->trans.apply(r)));
+    return normalized(this->trans.getInverseTranspose()*this->geo->getNormal(this->trans.apply(r)));
 }
 
 Vect Surface::getIntersection(Ray r){

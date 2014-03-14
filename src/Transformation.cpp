@@ -8,18 +8,33 @@
 
 Transformation::Transformation() {
   this->m = Matrix();
+  init();
 }
 
 Transformation::Transformation(Matrix m) {
   this->m = m;
+  init();
 }
 
 Transformation::Transformation(Transformation* t) {
   this->m = t->m;
+  this->m_inverse = t->m_inverse;
+  this->m_transpose = t->m_transpose;
+  this->m_inverse_transpose = t->m_inverse_transpose;
+}
+
+void Transformation::init(){
+    this->m_inverse = this->m.inverse();
+    this->m_transpose = this->m.transpose();
+    this->m_inverse_transpose = this->m.inverse().transpose();
 }
 
 Matrix Transformation::getTransformation() {
   return this->m;
+}
+
+Matrix Transformation::getInverseTranspose() {
+    return this->m_inverse_transpose;
 }
 
 Transformation Transformation::operator*(const Transformation rhs) const {
@@ -31,16 +46,15 @@ Vect Transformation::operator*(const Vect rhs) const {
 }
 
 Transformation Transformation::inverse() const {
-  return Transformation((this->m).inverse());
+  return Transformation(this->m_inverse);
 }
 
 Transformation Transformation::transpose() const {
-  return Transformation((this->m).transpose());
+  return Transformation(this->m_transpose);
 }
 
 Ray Transformation::apply(const Ray r) const {
-  Transformation inv = this->inverse();
-  return Ray(inv*r.getPos(), inv*r.getDir());
+  return Ray(this->m_inverse*r.getPos(), this->m_inverse*r.getDir());
 }
 
 ostream& operator<<(ostream& lhs, Transformation& t) {
@@ -56,7 +70,7 @@ Rotation::Rotation(scalar angle, string axis) {
   if (axis == "x") {
     v = Vect(1, 0, 0);
   } else if (axis == "y") {
-    v = Vect(0, 1, 0);
+    v = Vect(0, -1, 0);
   } else if (axis == "z") {
     v = Vect(0, 0, 1);
   }

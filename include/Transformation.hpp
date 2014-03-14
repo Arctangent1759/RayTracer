@@ -11,6 +11,7 @@ class Transformation {
         Transformation(Matrix m);
         Transformation(Transformation* t);
         Matrix getTransformation();
+        Matrix getInverseTranspose();
         Transformation operator*(const Transformation rhs) const;
         Vect operator*(const Vect rhs) const;
         Transformation inverse() const;
@@ -18,6 +19,10 @@ class Transformation {
         Ray apply(const Ray r) const;
     protected:
         Matrix m;
+        Matrix m_inverse;
+        Matrix m_transpose;
+        Matrix m_inverse_transpose;
+        void init();
 };
 
 class Rotation : public Transformation {
