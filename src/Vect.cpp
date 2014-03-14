@@ -35,6 +35,9 @@ scalar Vect::getY() const{
 scalar Vect::getZ() const{
     return this->z;
 }
+bool Vect::isDir() const{
+    return this->dir;
+}
 
 Vect Vect::operator+(const Vect rhs) const{
     return Vect(this->x+rhs.x,this->y+rhs.y,this->z+rhs.z);

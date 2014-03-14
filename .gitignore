@@ -3,4 +3,5 @@
 *.swo
 build/*
 bin/*
+run.sh
 

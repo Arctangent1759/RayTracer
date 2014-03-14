@@ -25,6 +25,7 @@ class Rotation : public Transformation {
         Rotation();
         Rotation(scalar angle, string axis);
         Rotation(scalar angle, Vect axis);
+        Rotation(scalar x, scalar y, scalar z);
 };
 
 class Scale : public Transformation {

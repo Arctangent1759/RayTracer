@@ -16,7 +16,6 @@ class Vect{
     public:
         friend ostream& operator<<(ostream& lhs, Vect& v);
         friend class Ray;
-        friend class Matrix;
         Vect();
         Vect(Vect* v);
         Vect(scalar x, scalar y, scalar z);

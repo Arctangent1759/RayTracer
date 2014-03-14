@@ -190,12 +190,19 @@ Vect Matrix::operator*(const Vect rhs) const {
   scalar x = rhs.getX();
   scalar y = rhs.getY();
   scalar z = rhs.getZ();
+  scalar q = 1;
+  if (rhs.isDir()) {
+    q = 0;
+  }
 
-  scalar row0 = a3+a0*x+a1*y+a2*z;
-  scalar row1 = b3+b0*x+b1*y+b2*z;
-  scalar row2 = c3+c0*x+c1*y+c2*z;
-  scalar row3 = d3+d0*x+d1*y+d2*z;
+  scalar row0 = a3*q+a0*x+a1*y+a2*z;
+  scalar row1 = b3*q+b0*x+b1*y+b2*z;
+  scalar row2 = c3*q+c0*x+c1*y+c2*z;
+  scalar row3 = d3*q+d0*x+d1*y+d2*z;
 
+  if (row3 == 0) {
+    return Vect(row0, row1, row2);
+  }
   return Vect(row0/row3, row1/row3, row2/row3);
 }
 
@@ -280,5 +287,9 @@ scalar Matrix::operator()(int x, int y) {
     throw std::invalid_argument("Expected x y between 0, 3 (inclusive).");
   }
   return this->m[x][y];
+}
+
+void Matrix::maintainHomogeneous() {
+  this->m[3][3] = 1;
 }
 

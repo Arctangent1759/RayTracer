@@ -40,7 +40,7 @@ Transformation Transformation::transpose() const {
 
 Ray Transformation::apply(const Ray r) const {
   Transformation inv = this->inverse();
-  return Ray(inv*r.getPos(), r.getDir());
+  return Ray(inv*r.getPos(), inv*r.getDir());
 }
 
 ostream& operator<<(ostream& lhs, Transformation& t) {
@@ -52,6 +52,7 @@ ostream& operator<<(ostream& lhs, Transformation& t) {
 Rotation::Rotation() : Transformation() {}
 
 Rotation::Rotation(scalar angle, string axis) {
+  cout << "test" << endl;
   Vect v;
   if (axis == "x") {
     v = Vect(1, 0, 0);
@@ -63,82 +64,45 @@ Rotation::Rotation(scalar angle, string axis) {
   scalar a = v.getX();
   scalar b = v.getY();
   scalar c = v.getZ();
-  vector< vector<scalar> > n(3, vector<scalar> (3, 0));
+  vector< vector<scalar> > n(4, vector<scalar> (4, 0));
   n[1][0] = c;
   n[0][1] = -c;
   n[0][2] = -b;
   n[2][0] = b;
   n[2][1] = a;
   n[1][2] = -a;
-  vector< vector<scalar> > n_2(3, vector<scalar> (3, 0));
-  n_2[0][0] = (-(c*c)-(b*b));
-  n_2[1][0] = a*b;
-  n_2[2][0] = a*c;
-  n_2[0][1] = a*b;
-  n_2[1][1] = (-(c*c)-(a*a));
-  n_2[2][1] = b*c;
-  n_2[0][2] = a*c;
-  n_2[1][2] = b*c;
-  n_2[2][2] = (-(b*b)-(a*a));
-  vector< vector<scalar> > r(4, vector<scalar> (4, 0));
-  for (int i = 0; i < 3; i++) {
-    for (int j = 0; j < 3; j++) {
-      n[i][j] *= sin(angle);
-      n_2[i][j] *= (1-cos(angle));
-    }
-  }
-  for (int i = 0; i < 3; i++) {
-    for (int j = 0; j < 3; j++) {
-      if (i == j) {
-        r[i][j] = 1 + n[i][j] + n_2[i][j];
-      } else {
-        r[i][j] = n[i][j] + n_2[i][j];
-      }
-    }
-  }
-  r[3][3] = 1;
-  this->m = Matrix(r);
+  Matrix n1(n);
+  cout << n1 << endl;
+  Matrix n2(n1*n1);
+  cout << n2 << endl;
+  this->m = n1*sin(angle)+n2*(1-cos(angle))+Matrix();
+  scalar t1 = sin(angle);
+  scalar t2 = (1-cos(angle));
+  cout << t1 << endl << t2 << endl;
+  this->m.maintainHomogeneous();
 }
 
 Rotation::Rotation(scalar angle, Vect axis) {
   scalar a = axis.getX();
   scalar b = axis.getY();
   scalar c = axis.getZ();
-  vector< vector<scalar> > n(3, vector<scalar> (3, 0));
+  vector< vector<scalar> > n(4, vector<scalar> (4, 0));
   n[1][0] = c;
   n[0][1] = -c;
   n[0][2] = -b;
   n[2][0] = b;
   n[2][1] = a;
   n[1][2] = -a;
-  vector< vector<scalar> > n_2(3, vector<scalar> (3, 0));
-  n_2[0][0] = (-(c*c)-(b*b));
-  n_2[1][0] = a*b;
-  n_2[2][0] = a*c;
-  n_2[0][1] = a*b;
-  n_2[1][1] = (-(c*c)-(a*a));
-  n_2[2][1] = b*c;
-  n_2[0][2] = a*c;
-  n_2[1][2] = b*c;
-  n_2[2][2] = (-(b*b)-(a*a));
-  vector< vector<scalar> > r(4, vector<scalar> (4, 0));
-  for (int i = 0; i < 3; i++) {
-    for (int j = 0; j < 3; j++) {
-      n[i][j] *= sin(angle);
-      n_2[i][j] *= (1-cos(angle));
-    }
-  }
-  for (int i = 0; i < 3; i++) {
-    for (int j = 0; j < 3; j++) {
-      if (i == j) {
-        r[i][j] = 1 + n[i][j] + n_2[i][j];
-      } else {
-        r[i][j] = n[i][j] + n_2[i][j];
-      }
-    }
-  }
-  r[3][3] = 1;
-  this->m = Matrix(r);
+  n[3][3] = 1;
+  Matrix n1(n);
+  Matrix n2(n1*n1);
+  this->m = n1*sin(angle)+n2*(1-cos(angle))+Matrix();
+  this->m.maintainHomogeneous();
+}
+
+Rotation::Rotation(scalar x, scalar y, scalar z) {
+  this->m = (Rotation(x, "x")*Rotation(y, "y")*Rotation(z, "z")).getTransformation();
+  this->m.maintainHomogeneous();
 }
 
 // Scale

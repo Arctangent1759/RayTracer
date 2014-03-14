@@ -26,6 +26,7 @@ class Matrix {
         Vect operator*(const Vect rhs) const;
         Matrix operator*(const scalar rhs) const;
         scalar operator()(int x, int y);
+        void maintainHomogeneous();
 
         Matrix inverse() const;
         Matrix transpose() const;
