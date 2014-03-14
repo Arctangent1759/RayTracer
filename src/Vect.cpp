@@ -9,18 +9,21 @@ Vect::Vect(){
     this->x=0;
     this->y=0;
     this->z=0;
+    this->dir=false;
 }
 
 Vect::Vect(Vect* v){
     this->x=v->x;
     this->y=v->y;
     this->z=v->z;
+    this->dir=v->dir;
 }
 
 Vect::Vect(scalar x, scalar y, scalar z){
     this->x=x;
     this->y=y;
     this->z=z;
+    this->dir=false;
 }
 
 scalar Vect::getX() const{
@@ -118,6 +121,7 @@ Vect perp(const Vect u, const Vect v){
 Ray::Ray(Vect p, Vect v){
     this->pos=p;
     this->dir=v;
+    this->dir.dir=true;
 }
 
 void Ray::setPos(Vect v){
@@ -125,7 +129,9 @@ void Ray::setPos(Vect v){
 }
 void Ray::setDir(Vect v){
     this->dir=v;
+    this->dir.dir=true;
 }
+
 Vect Ray::getPos() const{
     return this->pos;
 }

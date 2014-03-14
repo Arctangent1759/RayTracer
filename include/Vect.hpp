@@ -6,17 +6,17 @@
 using namespace std;
 
 class Vect;
-class Normal;
 class Point;
 class Ray;
+class Matrix;
 
 typedef double scalar;
 
 class Vect{
-    friend class Normal;
-    friend ostream& operator<<(ostream& lhs, Vect& v);
-
     public:
+        friend ostream& operator<<(ostream& lhs, Vect& v);
+        friend class Ray;
+        friend class Matrix;
         Vect();
         Vect(Vect* v);
         Vect(scalar x, scalar y, scalar z);
@@ -24,6 +24,7 @@ class Vect{
         scalar getX() const;
         scalar getY() const;
         scalar getZ() const;
+        bool isDir() const;
 
         virtual Vect operator+(const Vect rhs) const;
         virtual Vect operator-(const Vect rhs) const;
@@ -43,6 +44,7 @@ class Vect{
 
     protected:
         scalar x,y,z;
+        bool dir;
 };
 
 ostream& operator<<(ostream& lhs, Vect& v);
