@@ -4,111 +4,164 @@
 #include "Scene.hpp"
 #include "Surface.hpp"
 #include "Transformation.hpp"
-
 #include "ImgWriter.hpp"
-
 #include <math.h>
+#include <fstream>
+#include <sstream>
+#include <string>
 
 const scalar pi = atan(1)*4;
 
 using namespace std;
 
-int main(){
-    /*
-    Scene s(Color(0.0,0.0,0.0),Color(0,0,0),5);
-    s.addCamera(new Camera(new Vect(0,0,0),new Vect(-1,1,-3),new Vect(1,1,-3),new Vect(1,-1,-3),new Vect(-1,-1,-3),1000,1000));
-    s.addLight(new DirectionalLight( Vect(0.57735027,-0.57735027,-0.57735027), Color(1,1,1)));
-    s.addLight(new DirectionalLight( Vect(-0.57735027,0.57735027,0.57735027), Color(1,1,1)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(0,0,0),1),new Material(Color(0.1, 0.1, 0.1),Color(1., 0., 0.),Color(1., 1., 1.),Color(0.9, 0.9, 0.9),50.0),Translate(0,0,-17)*Rotation(0.0,0,0)*Scale(4,2,2)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(0,0,0),1),new Material(Color(0.1, 0.1, 0.1),Color(0., 1., 0.),Color(1., 1., 1.),Color(0.9, 0.9, 0.9),50.0),Translate(-2,4,-17)*Rotation(0.0,-M_PI/4,-M_PI/4)*Scale(0.5,1.5,1.0)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(0,0,0),1),new Material(Color(0.1, 0.1, 0.1),Color(0., 0., 1.),Color(1., 1., 1.),Color(0.9, 0.9, 0.9),50.0),Translate(-2,-4,-17)*Rotation(0.0,-M_PI/4,M_PI/4)*Scale(0.5,1.5,1.0)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(0,0,0),1),new Material(Color(0.1, 0.1, 0.1),Color(1., 1., 0.),Color(1., 1., 1.),Color(0.9, 0.9, 0.9),50.0),Translate(2,4,-17)*Rotation(0.0,M_PI/4,-3*M_PI/4)*Scale(0.5,1.5,1.0)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(0,0,0),1),new Material(Color(0.1, 0.1, 0.1),Color(0., 1., 1.),Color(1., 1., 1.),Color(0.9, 0.9, 0.9),50.0),Translate(2,-4,-17)*Rotation(0.0,M_PI/4,3*M_PI/4)*Scale(0.5,1.5,1.0)));
-    s.render("out.png");
-    */
+int main(int argc, char *argv[]){
 
-    /*
-    Scene s(Color(0.0,0.0,0.0),Color(0,0,0),5);
-    s.addCamera(new Camera(Vect(0,0,5),Vect(0,0,-1),Vect(0,1,0),1.0,500,500));
-    s.addLight(new PointLight( Vect(0,0,0), Color(1,1,1)));
-    s.addSurface(new Surface(new PolygonGeometry(Vect(-1,0,0),Vect(1,0,0),Vect(0,1,0)),new Material(Color(.1,.1,.1),Color(1,1,0),Color(1,1,1),Color(0.9,0.9,0.9),16.0),Translate(0,-4,-17)*Rotation(0.0,-2*M_PI/6,0.0)*Scale(4,.5,2)));
-    s.addSurface(new Surface(new PolygonGeometry(Vect(-1,0,0),Vect(1,0,0),Vect(0,1,0)),new Material(Color(.1,.1,.1),Color(1,1,0),Color(1,1,1),Color(0.9,0.9,0.9),16.0),Translate(0,-2,-17)*Rotation(0.0,-M_PI/6,0.0)*Scale(4,.5,2)));
-    s.addSurface(new Surface(new PolygonGeometry(Vect(-1,0,0),Vect(1,0,0),Vect(0,1,0)),new Material(Color(.1,.1,.1),Color(1,1,0),Color(1,1,1),Color(0.9,0.9,0.9),16.0),Translate(0,0,-17)*Rotation(0.0,0*M_PI/6,0.0)*Scale(4,.5,2)));
-    s.addSurface(new Surface(new PolygonGeometry(Vect(-1,0,0),Vect(1,0,0),Vect(0,1,0)),new Material(Color(.1,.1,.1),Color(1,1,0),Color(1,1,1),Color(0.9,0.9,0.9),16.0),Translate(0,2,-17)*Rotation(0.0,M_PI/6,0.0)*Scale(4,.5,2)));
-    s.addSurface(new Surface(new PolygonGeometry(Vect(-1,0,0),Vect(1,0,0),Vect(0,1,0)),new Material(Color(.1,.1,.1),Color(1,1,0),Color(1,1,1),Color(0.9,0.9,0.9),16.0),Translate(0,4,-17)*Rotation(0.0,2*M_PI/6,0.0)*Scale(4,.5,2)));
-    s.render("out.png");
-    */
+    if ((argc != 4 && argc != 2) || string(argv[1])=="-h" || (argc==4 && string(argv[2])!="-o")){
+        cout << "Usage:" << endl;
+        cout << "./as2 <SCENEFILE> [-o <OUTFILE>]" << endl;
+        cout << "\t <SCENEFILE> is the path to a scene file." << endl;
+        cout << "\t <OUTFILE> is the path to the output file. If left unspecified, defaults to \"out.png\"." << endl;
+        exit(0);
+    }
 
-    Scene s(Color(0.0,0.0,0.0),Color(0,0,0),5);
-    s.addCamera(new Camera(Vect(0,0,0),Vect(0,0,-1),Vect(0,1,0),2.0,500,500));
-    s.addLight(new PointLight( Vect(0,0,0), Color(1,1,1)));
-    s.addSurface(new Surface(new ObjGeometry("./obj/shuttle.obj"),new Material(Color(.1,.1,.1),Color(.7,.7,.7),Color(1,1,1),Color(.5,.5,.5),50),Translate(0,0,-17)*Rotation(-M_PI/2,0,0)));
-    s.addSurface(new Surface(new PolygonGeometry(Vect(-1000,-5,1000),Vect(1000,-5,1000),Vect(0,-5,-1000)), new Material(Color(.1,.1,.1),Color(0.0,0.0,.3), Color(1,1,1),Color(.9,.9,.9),16)));
-    s.addSurface(new Surface(new PolygonGeometry(Vect(-1000,20,1000),Vect(1000,20,1000),Vect(0,20,-1000)), new Material(Color(.1,.1,.1),Color(0.0,0.0,.3), Color(1,1,1),Color(.9,.9,.9),16)));
-    s.render("out.png");
+    string outFile = "out.png";
+    string inFile = argv[1];
+    if (argc==4){
+        outFile = argv[3];
+    }
 
-    /*Scene s(Color(0.0,0.0,0.0),Color(0,0,0),5);
+    ifstream file(inFile.c_str());
 
-    s = Scene(Color(0.0,0.0,0.0),Color(0,0,0),5);
-    s.addCamera(new Camera(Vect(0,0,0),Vect(0,0,-3),Vect(0,1,0),2.0,1000,1000));
-    s.addLight(new DirectionalLight( Vect(0.57735027,-0.57735027,-0.57735027), Color(1,1,1)));
-    s.addLight(new DirectionalLight( Vect(-0.57735027,0.57735027,0.57735027), Color(1,1,1)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(0,0,-17), 2.0), new Material(Color(0.1,0.1,0.1), Color(1,0,0), Color(1,1,1), Color(0.9,0.9,0.9), 50)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(0,4,-17), 1.5), new Material(Color(0.1,0.1,0.1), Color(0,1,0), Color(1,1,1), Color(0.9,0.9,0.9), 50)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(0,-4,-17), 1.5), new Material(Color(0.1,0.1,0.1), Color(0,0,1), Color(1,1,1), Color(0.9,0.9,0.9), 50)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(4,0,-17), 1.5), new Material(Color(0.1,0.1,0.1), Color(1,1,0), Color(1,1,1), Color(0.9,0.9,0.9), 50)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(-4,0,-17), 1.5), new Material(Color(0.1,0.1,0.1), Color(0,1,1), Color(1,1,1), Color(0.9,0.9,0.9), 50)));
-    s.render("img/5sphere.png");
+    if (!file){
+        cout << "File " << inFile << " not found." << endl;
+        exit(0);
+    }
 
+    string line;
+    Scene s(Color(0,0,0),Color(0,0,0),5);
+    while (getline(file,line)){
+        if (line == "" || line.at(0)=='#'){
+            continue;
+        }
+        istringstream lstr(line);
+        string token;
+        lstr >> token;
+        cout << "Processing token " << token << endl;
+        if (token == "Scene"){
+            scalar bgR,bgG,bgB;
+            int recursiveDepth;
+            lstr >>bgR>>bgG>>bgB>>recursiveDepth;
+            s = Scene(Color(0,0,0),Color(bgR,bgG,bgB),recursiveDepth);
+            cout << "Initializing scene " << s << endl;
+        }else if (token == "Camera"){
+            scalar lookfromX,lookfromY,lookfromZ,lookatX,lookatY,lookatZ,upX,upY,upZ,fov,imgX,imgY;
+            lstr >> lookfromX>>lookfromY>>lookfromZ>>lookatX>>lookatY>>lookatZ>>upX>>upY>>upZ>>fov>>imgX>>imgY;
+            Camera* c = new Camera(Vect(lookfromX,lookfromY,lookfromZ),Vect(lookatX,lookatY,lookatZ),Vect(upX,upY,upZ),fov,imgX,imgY);
+            s.addCamera(c);
+            cout << "Initializing camera " << *c << endl;
+        }else if (token == "PointLight"){
+            scalar x,y,z,r,g,b;
+            lstr >> x>>y>>z>>r>>g>>b;
+            s.addLight(new PointLight(Vect(x,y,z),Color(r,g,b)));
+        }else if (token == "DirectionalLight"){
+            scalar x,y,z,r,g,b;
+            lstr >> x>>y>>z>>r>>g>>b;
+            s.addLight(new DirectionalLight(Vect(x,y,z),Color(r,g,b)));
+        }else if (token == "Polygon"){
+            vector<Vect> points;
+            Material* m = NULL;
+            Transformation trans;
+            while (lstr >> token){
+                cout << "\tProcessing token " << token << endl;
+                if (token == "v"){
+                    scalar x,y,z;
+                    lstr >> x>>y>>z;
+                    points.push_back(Vect(x,y,z));
+                }else if (token == "m"){
+                    scalar car, cag, cab, cdr, cdg, cdb, csr, csg, csb, crr, crg, crb, p;
+                    lstr >> car>> cag>> cab>> cdr>> cdg>> cdb>> csr>> csg>> csb>> crr>> crg>> crb>> p;
+                    m = new Material(Color(car,cag,cab),Color(cdr,cdg,cdb),Color(csr,csg,csb),Color(crr,crg,crb),p);
+                }else if (token == "t"){
+                    scalar x,y,z;
+                    lstr >>x>>y>>z;
+                    trans=trans*Translate(x,y,z);
+                }else if (token == "r"){
+                    scalar x,y,z;
+                    lstr >>x>>y>>z;
+                    trans=trans*Rotation(x*M_PI/180.0,y*M_PI/180.0,z*M_PI/180.0);
+                }else if (token == "s"){
+                    scalar x,y,z;
+                    lstr >>x>>y>>z;
+                    trans=trans*Scale(x,y,z);
+                }else{
+                    cout << "Unexpected token " << token << " encountered while parsing Polygon arglist." << endl;
+                    exit(-1);
+                }
+            }
+            s.addSurface(new Surface(new PolygonGeometry(points),m,trans));
+        }else if (token == "Sphere"){
+            Material* m = NULL;
+            Transformation trans;
+            scalar cx,cy,cz,radius;
+            lstr >> cx >> cy >> cz >> radius;
+            while (lstr >> token){
+                cout << "\tProcessing token " << token << endl;
+                if (token == "m"){
+                    scalar car, cag, cab, cdr, cdg, cdb, csr, csg, csb, crr, crg, crb, p;
+                    lstr >> car>> cag>> cab>> cdr>> cdg>> cdb>> csr>> csg>> csb>> crr>> crg>> crb>> p;
+                    m = new Material(Color(car,cag,cab),Color(cdr,cdg,cdb),Color(csr,csg,csb),Color(crr,crg,crb),p);
+                }else if (token == "t"){
+                    scalar x,y,z;
+                    lstr >>x>>y>>z;
+                    trans=trans*Translate(x,y,z);
+                }else if (token == "r"){
+                    scalar x,y,z;
+                    lstr >>x>>y>>z;
+                    trans=trans*Rotation(x*M_PI/180.0,y*M_PI/180.0,z*M_PI/180.0);
+                }else if (token == "s"){
+                    scalar x,y,z;
+                    lstr >>x>>y>>z;
+                    trans=trans*Scale(x,y,z);
+                }else{
+                    cout << "Unexpected token " << token << " encountered while parsing Sphere arglist." << endl;
+                    exit(-1);
+                }
+            }
+            s.addSurface(new Surface(new SphereGeometry(Vect(cx,cy,cz),radius),m,trans));
+        }else if (token == "Obj"){
+            Material* m = NULL;
+            Transformation trans;
+            string filename;
+            lstr >> filename;
+            while (lstr >> token){
+                cout << "\tProcessing token " << token << endl;
+                if (token == "m"){
+                    scalar car, cag, cab, cdr, cdg, cdb, csr, csg, csb, crr, crg, crb, p;
+                    lstr >> car>> cag>> cab>> cdr>> cdg>> cdb>> csr>> csg>> csb>> crr>> crg>> crb>> p;
+                    m = new Material(Color(car,cag,cab),Color(cdr,cdg,cdb),Color(csr,csg,csb),Color(crr,crg,crb),p);
+                }else if (token == "t"){
+                    scalar x,y,z;
+                    lstr >>x>>y>>z;
+                    trans=trans*Translate(x,y,z);
+                }else if (token == "r"){
+                    scalar x,y,z;
+                    lstr >>x>>y>>z;
+                    trans=trans*Rotation(x*M_PI/180.0,y*M_PI/180.0,z*M_PI/180.0);
+                }else if (token == "s"){
+                    scalar x,y,z;
+                    lstr >>x>>y>>z;
+                    trans=trans*Scale(x,y,z);
+                }else{
+                    cout << "Unexpected token " << token << " encountered while parsing Sphere arglist." << endl;
+                    exit(-1);
+                }
+            }
+            s.addSurface(new Surface(new ObjGeometry(filename),m,trans));
 
-    s = Scene(Color(0.0,0.0,0.0),Color(0,0,0),5);
-    s.addCamera(new Camera(new Vect(0,0,0),new Vect(-1,1,-3),new Vect(1,1,-3),new Vect(1,-1,-3),new Vect(-1,-1,-3),500,500));
-    s.addLight(new DirectionalLight(Vect(0.57735027,-0.57735027,-0.57735027), Color(1,1,1)));
-    s.addLight(new DirectionalLight(Vect(0.57735027,0.57735027,-0.57735027), Color(0,0,1)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(0,0,-20), 3.0), new Material(Color(1,0,1), Color(1,1,1), Color(0,0,0), 50.0)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(-2,2,-15), 1.0), new Material(Color(1,1,0), Color(1,1,1), Color(0,0,0), 50.0)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(-2,-2,-15), 1.0), new Material(Color(0,1,1), Color(1,1,1), Color(0,0,0), 50.0)));
-    s.addSurface(new Surface(new PolygonGeometry(Vect(5,5,-17),Vect(1,4,-20),Vect(6,-1,-20)), new Material(Color(0.1,0.1,0.1), Color(1,1,1), Color(1,1,1), 50.0)));
-    s.render("img/PolyReflect.png");
-
-    s = Scene(Color(0.0,0.0,0.0),Color(0,0,0),5);
-    s.addCamera(new Camera(new Vect(0,0,0),new Vect(-1,1,-3),new Vect(1,1,-3),new Vect(1,-1,-3),new Vect(-1,-1,-3),500,500));
-    s.addLight(new PointLight(Vect(0,0,0),Color(1,1,1)));
-    vector<Vect> points(5);
-    points[4]=Vect(-3,-2,-14);
-    points[0]=Vect(-3,1,-15);
-    points[2]=Vect(0,4,-16);
-    points[1]=Vect(3,1,-15);
-    points[3]=Vect(3,-2,-14);
-    s.addSurface(new Surface(new PolygonGeometry(points), new Material(Color(.1,.1,.1),Color(0,0,.3),Color(0,0,1),Color(1,1,1),50.0)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(0,10,5),5), new Material(Color(.1,.1,.1),Color(1,0,0),Color(1,1,1),Color(0,0,0),50.0)));
-    s.render("img/SphereMirror.png");
-
-    s = Scene(Color(0.0,0.0,0.0),Color(0,0,0),5);
-    s.addCamera(new Camera(Vect(-5,-5,5),Vect(1,1,-1),Vect(-1,1,-1),2.0,500,500));
-    s.addLight(new DirectionalLight( Vect(0.57735027,-0.57735027,-0.57735027), Color(1,1,1)));
-    s.addLight(new DirectionalLight( Vect(-0.57735027,0.57735027,0.57735027), Color(1,1,1)));
-    s.addSurface(new Surface(new ObjGeometry("obj/dodecahedron.obj"), new Material(Color(0.1,0.1,0.1),Color(.5,.5,.5), Color(1,1,1), Color(.9,.9,.9), 50.0)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(0,2,0), 0.5), new Material(Color(0.1,0.1,0.1), Color(0,1,0), Color(1,1,1), Color(0.9,0.9,0.9), 50)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(0,-2,0), 0.5), new Material(Color(0.1,0.1,0.1), Color(0,0,1), Color(1,1,1), Color(0.9,0.9,0.9), 50)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(2,0,0), 0.5), new Material(Color(0.1,0.1,0.1), Color(1,1,0), Color(1,1,1), Color(0.9,0.9,0.9), 50)));
-    s.addSurface(new Surface(new SphereGeometry(Vect(-2,0,0), 0.5), new Material(Color(0.1,0.1,0.1), Color(0,1,1), Color(1,1,1), Color(0.9,0.9,0.9), 50)));
-    s.render("img/5sphereDodec.png");
-
-    s = Scene(Color(0.0,0.0,0.0),Color(0,0,0),5);
-    s.addCamera(new Camera(Vect(0,0,20),Vect(0,0,-1),Vect(0,1,0),2,50,50));
-    s.addLight(new PointLight(Vect(0,0,20), Color(1,1,1)));
-    s.addSurface(new Surface(new ObjGeometry("obj/airboat.obj"), new Material(Color(.1,.1,.1),Color(1,0,0),Color(1,1,1),Color(.9,.9,.9),50)));
-    s.render("img/Airboat.png");
-
-    s = Scene(Color(0.0,0.0,0.0),Color(0,0,0),5);
-    s.addCamera(new Camera(Vect(0,8,0)*2,Vect(0,-1,0),Vect(0,0,1),2,100,100));
-    s.addLight(new PointLight(Vect(0,0,10), Color(1,1,1)));
-    s.addSurface(new Surface(new ObjGeometry("obj/shuttle.obj"), new Material(Color(.1,.1,.1),Color(.7,.7,.7),Color(1,1,1),Color(.5,.5,.5),50)));
-    s.addSurface(new Surface(new PolygonGeometry(Vect(-1000,-1000,-5),Vect(1000,-1000,-5),Vect(0,1000,-5)), new Material(Color(.1,.1,.1),Color(0,0,.7),Color(0,0,.5),Color(1,1,1),50)));
-    s.addSurface(new Surface(new PolygonGeometry(Vect(-1000,-1000,12),Vect(1000,-1000,12),Vect(0,1000,12)), new Material(Color(.1,.1,.1),Color(0,0,.7),Color(0,0,.5),Color(1,1,1),50)));
-    s.render("img/Shuttle.png");
-
-    //s = Scene(Color(0.0,0.0,0.0),Color(0,0,0),5);
-    //s.addCamera(new Camera(Vect(0,0,0),Vect(0,-1,0),Vect(0,0,1),2,500,500));*/
+        }else{
+            cout << "Unexpected token " << token << " encountered while parsing scene file." << endl;
+            exit(-1);
+        }
+    }
+    s.render(outFile);
 }

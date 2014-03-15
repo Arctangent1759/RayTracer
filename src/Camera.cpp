@@ -15,7 +15,7 @@ Camera::Camera(Vect eye, Vect lookat, Vect up, scalar fovy, int imgWidth, int im
     this->eye=eye;
     Vect center = eye+lookat;
     Vect y = normalized(up);
-    Vect x = normalized(cross(y,normalized(lookat)));
+    Vect x = normalized(-1*cross(y,normalized(lookat)));
     scalar fovx = (fovy*imgWidth)/imgHeight;
     this->ul=center+((fovy/2.0)*y)-((fovx/2.0)*x);
     this->ur=center+((fovy/2.0)*y)+((fovx/2.0)*x);
@@ -37,4 +37,8 @@ int Camera::getImgWidth(){
 
 int Camera::getImgHeight(){
     return this->imgHeight;
+}
+
+ostream& operator<<(ostream& lhs, Camera& c){
+    lhs << "Camera(" << c.eye << ", " << c.ul << ", " << c.ur << ", " << c.lr << ", " << c.ll << ", " << c.imgWidth << ", " << c.imgHeight << ")";
 }

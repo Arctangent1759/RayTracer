@@ -149,9 +149,11 @@ ObjGeometry::ObjGeometry(string filepath){
             lstr >> x >> y >> z;
             vertices.push_back(Vect(x,y,z));
         }else if(token=="f"){
+            string vertString;
             int vertNum;
             vector<int> currFace;
-            while (lstr >> vertNum){
+            while (lstr >> vertString){
+                vertNum = atoi(vertString.substr(0,vertString.find('/')).c_str());
                 currFace.push_back(vertNum-1);
             }
             faces.push_back(currFace);

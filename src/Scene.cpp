@@ -91,3 +91,8 @@ Surface* Scene::getEarliestIntersection(Ray r){
     }
     return out;
 }
+
+
+ostream& operator<<(ostream& lhs, Scene& s){
+    lhs << "Scene(" << s.ambientColor << ", " << s.backgroundColor << ", " << s.maxReflectionDepth << ")";
+}

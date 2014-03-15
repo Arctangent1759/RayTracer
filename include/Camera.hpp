@@ -5,6 +5,7 @@
 
 class Camera{
     public:
+        friend ostream& operator<<(ostream& lhs, Camera& c);
         Camera(Vect eye, Vect ul, Vect ur, Vect lr, Vect ll, int imgWidth, int imgHeight);
         Camera(Vect eye, Vect lookat, Vect up, scalar fovy, int imgWidth, int imgHeight);
         Ray getRay(int i, int j);
@@ -20,5 +21,7 @@ class Camera{
         int imgWidth;
         int imgHeight;
 };
+
+ostream& operator<<(ostream& lhs, Camera& s);
 
 #endif

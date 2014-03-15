@@ -10,6 +10,7 @@
 
 class Scene{
     public:
+        friend ostream& operator<<(ostream& lhs, Scene& s);
         Scene(Color ambientColor, Color backgroundColor, int maxReflectionDepth);
 
         void addSurface(Surface* s);
@@ -29,5 +30,8 @@ class Scene{
         static const scalar SHADOW_BIAS = 1e-5;
         int maxReflectionDepth;
 };
+
+
+ostream& operator<<(ostream& lhs, Scene& s);
 
 #endif
